@@ -3,13 +3,14 @@ var schemaCouch = require('schema-couch');
 loaded_callback = function(doc, cb) { 
   doc['rewrites'].unshift({
     "from": "/services",
-           "to": "_rewrite/service/list"
+    "to": "_rewrite/service/list",
+    "query": { "include_docs": "true" }
   }); 
   doc['rewrites'].unshift({
     "from": "/sites",
-    "to": "_rewrite/site/list"
+    "to": "_rewrite/site/list",
+    "query": { "include_docs": "true" }
   });
-  console.log(doc['rewrites']); 
   cb(null, doc); 
 };
 
