@@ -1,1 +1,1 @@
-# indigo_cmdb
+# indigo-cmdb
