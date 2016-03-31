@@ -13,4 +13,4 @@ pushed_callback = function(err) {
   if (err) console.log(err) 
 };
 
-schemaCouch(__dirname + '/schemas', 'http://localhost:5984/indigo-cmdb', loaded_callback, pushed_callback);
+schemaCouch(__dirname + '/schemas', 'http://localhost:5984/indigo-cmdb-v2', loaded_callback, pushed_callback);
