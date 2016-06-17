@@ -1,6 +1,6 @@
 module.exports = {
    type: "object",
-   additionalProperties: true, 
+   additionalProperties: false, 
    list: {
       filters: {
       }, 
@@ -10,10 +10,6 @@ module.exports = {
       }
    },
    properties: {
-      type: {
-         type: "string",
-         required: true
-      },
       image_id: { 
          type: "string",
          required: true
