@@ -9,19 +9,18 @@ module.exports = {
       },
       value: {
          sitename: "sitename",
-         site_id: "site_id",
+         provider_id: "provider_id",
          hostname: "hostname", 
          type: "type"
       }
    },
    belongs_to: [{
-      name: 'site',
-      type: 'site',
+      type: 'provider',
       many_name: 'services',
-      foreign_key: 'site_id', 
+      foreign_key: 'provider_id', 
       value: {
          sitename: "sitename",
-         site_id: "site_id",
+         provider_id: "provider_id",
          hostname: "hostname",
          type: "type"
       }
@@ -31,6 +30,10 @@ module.exports = {
       type: {
          type: "string",
          required: true
+      },
+      provider_id: { 
+         type: "string",
+         required: false
       }
    }
 }

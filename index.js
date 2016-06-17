@@ -1,11 +1,12 @@
 var schemaCouch = require('schema-couch');
+var auth = null;
+
+try {
+    auth = require('./auth.js')
+} catch (ex) {
+}
 
 loaded_callback = function(doc, cb) { 
-//  doc['rewrites'].unshift({
-//    "from": "/services",
-//    "to": "_rewrite/service/list",
-//    "query": { "include_docs": "true" }
-//  }); 
   cb(null, doc); 
 };
 
@@ -13,4 +14,6 @@ pushed_callback = function(err) {
   if (err) console.log(err) 
 };
 
-schemaCouch(__dirname + '/schemas', 'http://localhost:5984/indigo-cmdb-v2', loaded_callback, pushed_callback);
+//var url = "http://localhost:5984/indigo-cmdb-v2"
+var url  = "http://" + (auth ? (auth.username + ":" + auth.password + "@" ) : "") + "couch.cloud.plgrid.pl/indigo-cmdb-v3"
+schemaCouch(__dirname + '/schemas', url, loaded_callback, pushed_callback);
