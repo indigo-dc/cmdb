@@ -5,7 +5,8 @@ module.exports = {
       filters: {
          sitename: ["sitename"], 
          type: ["type"], 
-         sitename_type: ["sitename", "type"]
+         sitename_type: ["sitename", "type"],
+         provider_id: ["provider_id"]
       },
       value: {
          sitename: "sitename",
@@ -14,6 +15,9 @@ module.exports = {
          type: "type"
       }
    },
+   has_many: [
+      { name: 'images',  type: 'image' }
+   ],
    belongs_to: [{
       type: 'provider',
       many_name: 'services',
@@ -37,4 +41,5 @@ module.exports = {
       }
    }
 }
+
 
