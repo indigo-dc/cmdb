@@ -3,6 +3,8 @@ module.exports = {
    additionalProperties: false, 
    list: {
       filters: {
+         image_name: ["image_name"],
+         service: ["service"]
       }, 
       value: {
          image_id: "image_id",
@@ -16,7 +18,7 @@ module.exports = {
       },
       image_name: { 
          type: "string",
-         required: false
+         required: true
       },
       architecture: { 
          type: "string",
@@ -33,7 +35,12 @@ module.exports = {
       version: { 
          type: "string",
          required: false
+      },
+      service: {
+         type: "string",
+         required: true
       }
    }
 }
+
 
