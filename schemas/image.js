@@ -11,6 +11,16 @@ module.exports = {
          image_name: "image_name"
       }
    },
+   belongs_to: [{
+      type: 'service',
+      many_name: 'images',
+      foreign_key: 'service',
+      value: {
+         image_id: "image_id", 
+         image_name: "image_name",
+         service: "service"
+      }
+   }],
    properties: {
       image_id: { 
          type: "string",
