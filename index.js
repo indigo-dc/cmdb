@@ -15,5 +15,5 @@ pushed_callback = function(err) {
 };
 
 //var url = "http://localhost:5984/indigo-cmdb-v2"
-var url  = "http://" + (auth ? (auth.username + ":" + auth.password + "@" ) : "") + "couch.cloud.plgrid.pl/indigo-cmdb-v2"
+var url  = "http://" + (auth ? (auth.username + ":" + auth.password + "@" ) : "") + "localhost:5984/indigo-cmdb-v2"
 schemaCouch(__dirname + '/schemas', url, loaded_callback, pushed_callback);
