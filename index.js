@@ -1,8 +1,8 @@
 var schemaCouch = require('schema-couch-roles');
-var c = null;
+var config = null;
 
 try {
-    auth = require('./config.js')
+    config = require('./config.js')
 } catch (ex) {
 }
 
