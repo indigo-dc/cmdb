@@ -1,6 +1,6 @@
 module.exports = {
    type: "object",
-   additionalProperties: false, 
+   additionalProperties: true, 
    list: {
       filters: {
          image_name: ["image_name"],

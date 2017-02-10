@@ -10,7 +10,7 @@
   "author": "Bartosz Wilk",
   "license": "",
   "dependencies": {
-    "schema-couch": "0.0.2"
+    "schema-couch-roles": "0.0.5"
   },
   "repository": {
     "type": "git",
