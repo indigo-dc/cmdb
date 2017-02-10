@@ -1,8 +1,8 @@
 var schemaCouch = require('schema-couch-roles');
-var auth = null;
+var c = null;
 
 try {
-    auth = require('./auth.js')
+    auth = require('./config.js')
 } catch (ex) {
 }
 
@@ -14,6 +14,4 @@ pushed_callback = function(err) {
   if (err) console.log(err) 
 };
 
-//var url = "http://localhost:5984/indigo-cmdb-v2"
-var url  = "http://" + (auth ? (auth.username + ":" + auth.password + "@" ) : "") + "localhost:5984/indigo-cmdb-v-test"
-schemaCouch(__dirname + '/schemas', url, loaded_callback, pushed_callback);
+schemaCouch(__dirname + '/schemas', config.url, loaded_callback, pushed_callback);
