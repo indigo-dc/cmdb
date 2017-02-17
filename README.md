@@ -1,4 +1,6 @@
 # CMDB documentation
 
-Indigo-dc CMDB documentation draft
+Documentation of CMDB service 
 
+####[Deployment](./deployment.md)
+####[Data migration](./data-migration.md)
