@@ -17,6 +17,15 @@ After cloning the repository please install the package:
 npm install
 ```
 
+####Configuration
+
+In order to configure database location please edit `config.js` file. The format is pretty self explanatory. Sample configuration is attached below:
+
+```javascript
+exports.url = "http://username:password@host:5984/dbname"
+```
+
+
 #### Schema definition
 
 To edit the schema itself navigate to `schemas` folder and make neccessary changes.
