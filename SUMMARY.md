@@ -6,6 +6,6 @@
 
 ## Processes
 
-* [Deployment](methods.md)
+* [Deployment](deployment.md)
 * [Data migration](data-migration.md)
 
