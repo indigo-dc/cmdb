@@ -1,4 +1,4 @@
-# CMDB Proxy
+# CMDB Proxy [![Build Status](https://travis-ci.org/mkasztelnik/cmdb-proxy.svg?branch=master)](https://travis-ci.org/mkasztelnik/cmdb-proxy)
 
 CMDB Proxy is a proxy to CMDB which adds authentication and authorization for
 incoming requests. In the future more CMDB features can be added here (than most
