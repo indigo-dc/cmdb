@@ -1,12 +1,12 @@
-package pl.cyfronet.fid;
+package pl.cyfronet.fid.cmdbproxy;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class CmdbProxyApplication {
+public class Application {
 
 	public static void main(String[] args) {
-		SpringApplication.run(CmdbProxyApplication.class, args);
+		SpringApplication.run(Application.class, args);
 	}
 }

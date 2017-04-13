@@ -1,0 +1,4 @@
+proxy:
+  cmdb:
+    servlet_url: /cmdb/*
+    target_url: http://indigo.cloud.plgrid.pl/cmdb
