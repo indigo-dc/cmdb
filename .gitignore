@@ -24,4 +24,4 @@ nbdist/
 .nb-gradle/
 
 ### configuration overrides
-src/main/resources/config/*
+src/main/resources/config
