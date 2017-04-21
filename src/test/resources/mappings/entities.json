@@ -1,0 +1,13 @@
+{
+  "request": {
+    "method": "GET",
+    "url": "/"
+  },
+  "response": {
+    "status": 200,
+    "jsonBody": ["image", "provider", "service"],
+    "headers": {
+      "Content-Type": "application/json"
+    }
+  }
+}
