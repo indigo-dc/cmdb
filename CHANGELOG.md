@@ -12,6 +12,7 @@ Please view this file on the master branch, on stable branches it's out of date.
 - Proxy into CMDB based on smiley-http-proxy-servlet and spring boot (@mkasztelnik)
 - Authentication integrated with Indigo IAM (@mkasztelnik)
 - Hierarchical entity PDP (@mkasztelnik)
+- Docker build for cmdb-proxy (@mkasztelnik)
 
 ### Changed
 
