@@ -14,6 +14,7 @@ Please view this file on the master branch, on stable branches it's out of date.
 - Hierarchical entity PDP (@mkasztelnik)
 - Docker build for cmdb-proxy (@mkasztelnik)
 - Proxy (`/cmdb-crud/*`) into raw CMDB CouchDB rest API (@mkasztelnik)
+- Other than `GET` requests allowed only for `/cmdb-crud/*` requests (@mkasztelnik)
 
 ### Changed
 
