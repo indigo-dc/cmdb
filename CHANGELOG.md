@@ -9,10 +9,11 @@ Please view this file on the master branch, on stable branches it's out of date.
 ## [Unreleased]
 
 ### Added
-- Proxy into CMDB based on smiley-http-proxy-servlet and spring boot (@mkasztelnik)
+- Proxy (`/cmdb/*`) into CMDB based on smiley-http-proxy-servlet and spring boot (@mkasztelnik)
 - Authentication integrated with Indigo IAM (@mkasztelnik)
 - Hierarchical entity PDP (@mkasztelnik)
 - Docker build for cmdb-proxy (@mkasztelnik)
+- Proxy (`/cmdb-crud/*`) into raw CMDB CouchDB rest API (@mkasztelnik)
 
 ### Changed
 

@@ -37,12 +37,7 @@ public class ProxyTest {
                     .withBody("providers list")
                     .withStatus(HttpStatus.OK.value())));
 
-        stubFor(WireMock.get(urlEqualTo("/userinfo"))
-                .withHeader("Authorization", new EqualToPattern("Bearer valid"))
-                .willReturn(aResponse()
-                    .withHeader("Content-Type", "application/json")
-                    .withBody("{\"sub\": \"usersub\"}")
-                    .withStatus(HttpStatus.OK.value())));
+        stubUserInfo();
 
         ResponseEntity<String> response = get("/cmdb/provider/list", "valid");
 
@@ -51,7 +46,7 @@ public class ProxyTest {
     }
 
     @Test
-    public void testBearerTokenIsNotValid() throws Exception {
+    public void testBearerTokenIsNotValidForCMDB() throws Exception {
         stubFor(WireMock.get(urlEqualTo("/userinfo"))
                 .withHeader("Authorization", new EqualToPattern("Bearer invalid"))
                 .willReturn(aResponse()
@@ -59,6 +54,41 @@ public class ProxyTest {
 
         HttpStatus status = get("/cmdb/provider/list", "invalid").getStatusCode();
         assertThat(status).isEqualTo(HttpStatus.FORBIDDEN);
+    }
+
+    @Test
+    public void testRequestIsProxiedIntoCMDBCrud() throws Exception {
+        stubFor(WireMock.get(urlEqualTo("/crud/id"))
+                .willReturn(aResponse()
+                    .withBody("document payload")
+                    .withStatus(HttpStatus.OK.value())));
+
+        stubUserInfo();
+
+        ResponseEntity<String> response = get("/cmdb-crud/id", "valid");
+
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(response.getBody()).isEqualTo("document payload");
+    }
+
+    @Test
+    public void testBearerTokenIsNotValidForCMDBCrud() throws Exception {
+        stubFor(WireMock.get(urlEqualTo("/userinfo"))
+                .withHeader("Authorization", new EqualToPattern("Bearer invalid"))
+                .willReturn(aResponse()
+                      .withStatus(HttpStatus.FORBIDDEN.value())));
+
+        HttpStatus status = get("/cmdb-crud/id", "invalid").getStatusCode();
+        assertThat(status).isEqualTo(HttpStatus.FORBIDDEN);
+    }
+
+    private void stubUserInfo() {
+        stubFor(WireMock.get(urlEqualTo("/userinfo"))
+                .withHeader("Authorization", new EqualToPattern("Bearer valid"))
+                .willReturn(aResponse()
+                    .withHeader("Content-Type", "application/json")
+                    .withBody("{\"sub\": \"usersub\"}")
+                    .withStatus(HttpStatus.OK.value())));
     }
 
     private ResponseEntity<String> get(String path, String token) {
