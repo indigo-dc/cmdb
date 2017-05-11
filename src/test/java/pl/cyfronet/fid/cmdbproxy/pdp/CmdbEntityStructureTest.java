@@ -11,10 +11,6 @@ import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.cloud.contract.wiremock.AutoConfigureWireMock;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import pl.cyfronet.fid.cmdbproxy.pdp.CmdbEntityStructure;
-import pl.cyfronet.fid.cmdbproxy.pdp.Entity;
-import pl.cyfronet.fid.cmdbproxy.pdp.EntityStructure;
-
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @AutoConfigureWireMock(port = 0)

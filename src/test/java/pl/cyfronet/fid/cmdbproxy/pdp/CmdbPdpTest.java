@@ -2,6 +2,9 @@ package pl.cyfronet.fid.cmdbproxy.pdp;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.nio.charset.Charset;
+
+import org.apache.commons.io.IOUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Value;
@@ -45,5 +48,22 @@ public class CmdbPdpTest extends WireMockTest {
     public void testGuardHierarchicalStructure() throws Exception {
         // userA is available in parent objects but parent has wrong type
         assertThat(pdp.canManage("userA", "wrongParentType")).isFalse();
+    }
+
+    @Test
+    public void testCanCreateLeaf() throws Exception {
+        // userB is in parent service, userC is in parent provider
+        String newItem = "{\"type\": \"image\", \"data\": {\"service\": \"4401ac5dc8cfbbb737b0a025758cf045\"}}";
+
+        assertThat(pdp.canCreate("userA", IOUtils.toInputStream(newItem, Charset.defaultCharset()))).isFalse();
+        assertThat(pdp.canCreate("userB", IOUtils.toInputStream(newItem, Charset.defaultCharset()))).isTrue();
+        assertThat(pdp.canCreate("userC", IOUtils.toInputStream(newItem, Charset.defaultCharset()))).isTrue();
+    }
+
+    @Test
+    public void testEveryoneCanCreateRoot() throws Exception {
+        String rootItem = "{\"type\": \"provider\"}";
+
+        assertThat(pdp.canCreate("user", IOUtils.toInputStream(rootItem, Charset.defaultCharset()))).isTrue();
     }
 }
