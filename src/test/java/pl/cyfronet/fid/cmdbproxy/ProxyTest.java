@@ -46,5 +46,11 @@ public class ProxyTest extends WireMockTest {
         assertThat(status).isEqualTo(HttpStatus.FORBIDDEN);
     }
 
+    @Test
+    public void testDeleteOwnedResource() throws Exception {
+        stubOKUserInfo("valid");
+
+
+    }
 
 }

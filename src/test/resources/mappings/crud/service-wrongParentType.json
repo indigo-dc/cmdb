@@ -1,12 +1,12 @@
 {
   "request": {
     "method": "GET",
-    "url": "/service/id/noowners"
+    "url": "/wrongParentType"
   },
   "response": {
     "status": 200,
     "jsonBody": {
-      "_id": "noowners",
+      "_id": "wrongParentType",
       "_rev": "8-fc9b82321e34175808d925667f28096a",
       "data": {
         "primary_key": "8253G0",
@@ -26,8 +26,9 @@
         },
         "extensions": null,
         "type": "compute",
-        "provider_id": "provider-100IT",
-        "endpoint": "https://xxx.yyy.zz"
+        "provider_id": "wrongType",
+        "endpoint": "https://xxx.yyy.zz",
+        "owners": ["userB"]        
       },
       "type": "service"
     },

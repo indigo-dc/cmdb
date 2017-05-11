@@ -25,6 +25,9 @@ public class CmdbPdp implements Pdp {
 
         @JsonProperty("data")
         Map<String, Object> data;
+
+        @JsonProperty("type")
+        String type;
     }
 
     private String targetUrl;
@@ -32,31 +35,40 @@ public class CmdbPdp implements Pdp {
     private EntityStructure entityStructure;
 
     @Autowired
-    public CmdbPdp(EntityStructure entityStructure, @Value("${proxy.cmdb.target_url}") String targetUrl) {
+    public CmdbPdp(EntityStructure entityStructure, @Value("${proxy.cmdb-crud.target_url}") String targetUrl) {
         this.entityStructure = entityStructure;
         this.targetUrl = targetUrl;
     }
 
     @Override
-    public boolean canManage(String userId, String entityName, String entityId) {
-        return canManage(userId, entityStructure.getEntity(entityName), entityId);
+    public boolean canManage(String userId, String entityId) {
+        return canManage(userId, entityId, null);
     }
 
-    private boolean canManage(String userId, Entity entity, String entityId) {
+    private boolean canManage(String userId, String entityId, String expectedType) {
         try {
-            Item item = new RestTemplate().getForObject(targetUrl + "/" + entity.getType() + "/id/" + entityId, Item.class);
+            Item item = new RestTemplate().getForObject(targetUrl + "/" + entityId, Item.class);
+            Entity entity = entityStructure.getEntity(item.type);
             @SuppressWarnings("unchecked")
             List<String> owners = (List<String>)item.data.get("owners");
 
-            if(notNullable(owners).contains(userId)) {
+            if(isWrongType(expectedType, item.type)) {
+                return false;
+            } else if(notNullable(owners).contains(userId)) {
                 return true;
             } else {
                 return notNullable(entity.getParents()).stream()
-                        .anyMatch(parent -> canManage(userId, parent, (String)item.data.get(parent.getForeignKey())));
+                        .anyMatch(parent -> canManage(userId,
+                                                      (String) item.data.get(parent.getForeignKey()),
+                                                      parent.type));
             }
         } catch(Exception e) {
             return false;
         }
+    }
+
+    private boolean isWrongType(String expected, String given) {
+        return expected != null && !expected.equals(given);
     }
 
     private <T> List<T> notNullable(List<T> list) {

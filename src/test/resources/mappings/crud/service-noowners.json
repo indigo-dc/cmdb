@@ -1,0 +1,38 @@
+{
+  "request": {
+    "method": "GET",
+    "url": "/noowners"
+  },
+  "response": {
+    "status": 200,
+    "jsonBody": {
+      "_id": "noowners",
+      "_rev": "8-fc9b82321e34175808d925667f28096a",
+      "data": {
+        "primary_key": "8253G0",
+        "hostname": "occi-api.100percentit.com",
+        "gocdb_portal_url": "https://xx.yy.zz",
+        "beta": "N",
+        "service_type": "a.b.c",
+        "core": null,
+        "in_production": "Y",
+        "node_monitored": "Y",
+        "sitename": "100IT",
+        "country_name": "United Kingdom",
+        "country_code": "GB",
+        "roc_name": "NGI_UK",
+        "scopes": {
+          "scope": "EGI"
+        },
+        "extensions": null,
+        "type": "compute",
+        "provider_id": "provider-100IT",
+        "endpoint": "https://xxx.yyy.zz"
+      },
+      "type": "service"
+    },
+    "headers": {
+      "Content-Type": "application/json"
+    }
+  }
+}

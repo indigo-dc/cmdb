@@ -23,21 +23,27 @@ public class CmdbPdpTest extends WireMockTest {
     @Test
     public void testCanManageRoot() throws Exception {
         // userD is in provider, userA does not.
-        assertThat(pdp.canManage("userA", "provider", "provider-100IT")).isFalse();
-        assertThat(pdp.canManage("userD", "provider", "provider-100IT")).isTrue();
+        assertThat(pdp.canManage("userA", "provider-100IT")).isFalse();
+        assertThat(pdp.canManage("userD", "provider-100IT")).isTrue();
     }
 
     @Test
     public void testLeafWithRootOwnership() throws Exception {
         // userB is in parent service, userC is in parent provider
-        assertThat(pdp.canManage("userB", "image", "7efc59c5db69ea67c5100de0f72580ea")).isTrue();
-        assertThat(pdp.canManage("userC", "image", "7efc59c5db69ea67c5100de0f72580ea")).isTrue();
+        assertThat(pdp.canManage("userB", "7efc59c5db69ea67c5100de0f72580ea")).isTrue();
+        assertThat(pdp.canManage("userC", "7efc59c5db69ea67c5100de0f72580ea")).isTrue();
     }
 
     @Test
     public void testNoOwners() throws Exception {
         // userA is not available in parent objects, userC is in parent provider
-        assertThat(pdp.canManage("userA", "service", "noowners")).isFalse();
-        assertThat(pdp.canManage("userC", "service", "noowners")).isTrue();
+        assertThat(pdp.canManage("userA", "noowners")).isFalse();
+        assertThat(pdp.canManage("userC", "noowners")).isTrue();
+    }
+
+    @Test
+    public void testGuardHierarchicalStructure() throws Exception {
+        // userA is available in parent objects but parent has wrong type
+        assertThat(pdp.canManage("userA", "wrongParentType")).isFalse();
     }
 }

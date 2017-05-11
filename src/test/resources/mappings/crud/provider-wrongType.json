@@ -1,12 +1,12 @@
 {
   "request": {
     "method": "GET",
-    "url": "/provider/id/provider-100IT"
+    "url": "/wrongType"
   },
   "response": {
     "status": 200,
     "jsonBody": {
-    	"_id": "provider-100IT",
+    	"_id": "wrongType",
       "_rev": "1-cc1726a91bc298e912d20ac2f15ec58e",
       "data": {
         "id": "419",
@@ -17,9 +17,9 @@
         "roc": "NGI_UK",
         "subgrid": "",
         "giis_url": "ldap://xxx.yyy.zz",
-        "owners": ["userC", "userD"]
+        "owners": ["userA"]
       },
-      "type": "provider"
+      "type": "service"
     },
     "headers": {
       "Content-Type": "application/json"

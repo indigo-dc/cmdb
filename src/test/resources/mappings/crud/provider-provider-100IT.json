@@ -1,0 +1,28 @@
+{
+  "request": {
+    "method": "GET",
+    "url": "/provider-100IT"
+  },
+  "response": {
+    "status": 200,
+    "jsonBody": {
+    	"_id": "provider-100IT",
+      "_rev": "1-cc1726a91bc298e912d20ac2f15ec58e",
+      "data": {
+        "id": "419",
+        "primary_key": "80090G0",
+        "name": "100IT",
+        "country": "United Kingdom",
+        "country_code": "GB",
+        "roc": "NGI_UK",
+        "subgrid": "",
+        "giis_url": "ldap://xxx.yyy.zz",
+        "owners": ["userC", "userD"]
+      },
+      "type": "provider"
+    },
+    "headers": {
+      "Content-Type": "application/json"
+    }
+  }
+}

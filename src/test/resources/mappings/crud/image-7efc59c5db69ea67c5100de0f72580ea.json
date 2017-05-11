@@ -1,7 +1,7 @@
 {
   "request": {
     "method": "GET",
-    "url": "/image/id/7efc59c5db69ea67c5100de0f72580ea"
+    "url": "/7efc59c5db69ea67c5100de0f72580ea"
   },
   "response": {
     "status": 200,
