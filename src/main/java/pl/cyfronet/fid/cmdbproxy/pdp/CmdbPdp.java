@@ -48,14 +48,18 @@ public class CmdbPdp implements Pdp {
             @SuppressWarnings("unchecked")
             List<String> owners = (List<String>)item.data.get("owners");
 
-            if(Optional.ofNullable(owners).orElse(Collections.<String>emptyList()).contains(userId)) {
+            if(notNullable(owners).contains(userId)) {
                 return true;
             } else {
-                return Optional.ofNullable(entity.getParents()).orElse(Collections.<Entity>emptyList())
-                    .stream().anyMatch(parent -> canManage(userId, parent, (String)item.data.get(parent.getForeignKey())));
+                return notNullable(entity.getParents()).stream()
+                        .anyMatch(parent -> canManage(userId, parent, (String)item.data.get(parent.getForeignKey())));
             }
         } catch(Exception e) {
             return false;
         }
+    }
+
+    private <T> List<T> notNullable(List<T> list) {
+        return Optional.ofNullable(list).orElse(Collections.<T>emptyList());
     }
 }
