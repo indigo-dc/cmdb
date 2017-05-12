@@ -17,7 +17,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Service
 @Profile({"development", "production"})
-class CmdbEntityStructure implements EntityStructure {
+public class CmdbEntityStructure implements EntityStructure {
 
     private String targetUrl;
 
@@ -83,5 +83,10 @@ class CmdbEntityStructure implements EntityStructure {
 
             return populateWithParents(parent);
         }).collect(Collectors.toList());
+    }
+
+    @Override
+    public boolean isRoot(String entityName) {
+        return getEntity(entityName).getParents().size() == 0;
     }
 }

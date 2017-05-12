@@ -1,8 +1,6 @@
 package pl.cyfronet.fid.cmdbproxy.web.filter;
 
 import java.io.IOException;
-import java.nio.charset.Charset;
-import java.util.Arrays;
 import java.util.Map;
 
 import javax.servlet.FilterChain;
@@ -11,13 +9,10 @@ import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.handler.RequestMatchResult;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
@@ -89,10 +84,6 @@ public class AuthorizationFilter extends CmdbCrudAwareFilter {
         }
     }
 
-    private boolean isCreate(HttpServletRequest httpRequest) {
-        return isMethod(httpRequest, HttpMethod.POST, HttpMethod.PUT) && isCreateRequestBody(httpRequest);
-    }
-
     private boolean canCreate(ServletRequest request) {
         try {
             return pdp.canCreate(getCurrentUser(), request.getInputStream());
@@ -105,28 +96,11 @@ public class AuthorizationFilter extends CmdbCrudAwareFilter {
         return pdp.canManage(getCurrentUser(), itemId);
     }
 
-    private boolean isCreateRequestBody(ServletRequest request) {
-        try {
-            return !IOUtils.toString(request.getInputStream(), Charset.defaultCharset()).contains("\"_rev\":");
-        } catch (IOException e) {
-            return false;
-        }
-    }
-
-    private boolean isMethod(HttpServletRequest request, HttpMethod... methods) {
-        return Arrays.asList(methods).stream().anyMatch(m -> m.toString().equals(request.getMethod()));
-    }
-
     private void permissionDenied(HttpServletResponse response) throws IOException {
         response.sendError(HttpServletResponse.SC_FORBIDDEN, "Access Denied");
     }
 
     private void badRequest(HttpServletResponse response) throws IOException {
         response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Bad request");
-    }
-
-    private String getCurrentUser() {
-        return (String) ((UsernamePasswordAuthenticationToken) SecurityContextHolder.getContext().getAuthentication())
-                .getPrincipal();
     }
 }

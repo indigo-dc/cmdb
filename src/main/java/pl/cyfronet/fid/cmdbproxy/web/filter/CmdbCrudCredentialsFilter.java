@@ -19,7 +19,7 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 @Component
-@Order(4)
+@Order(5)
 public class CmdbCrudCredentialsFilter extends CmdbCrudAwareFilter {
 
     @Value("${proxy.cmdb-crud.username}")

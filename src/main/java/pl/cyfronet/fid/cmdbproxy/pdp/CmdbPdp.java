@@ -41,10 +41,11 @@ public class CmdbPdp implements Pdp {
     private ObjectMapper mapper;
 
     @Autowired
-    public CmdbPdp(EntityStructure entityStructure, @Value("${proxy.cmdb-crud.target_url}") String targetUrl) {
+    public CmdbPdp(EntityStructure entityStructure, ObjectMapper mapper,
+            @Value("${proxy.cmdb-crud.target_url}") String targetUrl) {
         this.entityStructure = entityStructure;
         this.targetUrl = targetUrl;
-        mapper = new ObjectMapper();
+        this.mapper = mapper;
     }
 
     @Override

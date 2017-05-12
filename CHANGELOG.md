@@ -17,6 +17,7 @@ Please view this file on the master branch, on stable branches it's out of date.
 - Other than `GET` requests allowed only for `/cmdb-crud/*` requests (@mkasztelnik)
 - CMDB CRUD actions authorization (@mkasztelnik)
 - Add CMDB CRUD credentials into CRUD request (@mkasztelnik)
+- Current user is added into new created root item when not present (@mkasztelnik)
 
 ### Changed
 

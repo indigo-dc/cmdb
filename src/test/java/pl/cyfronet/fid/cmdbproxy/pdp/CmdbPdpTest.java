@@ -9,6 +9,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Value;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import pl.cyfronet.fid.cmdbproxy.WireMockTest;
 
 public class CmdbPdpTest extends WireMockTest {
@@ -20,7 +22,7 @@ public class CmdbPdpTest extends WireMockTest {
     @Before
     public void setUp() {
         EntityStructure structure = new CmdbEntityStructure(targetUrl);
-        pdp = new CmdbPdp(structure, targetUrl);
+        pdp = new CmdbPdp(structure, new ObjectMapper(), targetUrl);
     }
 
     @Test

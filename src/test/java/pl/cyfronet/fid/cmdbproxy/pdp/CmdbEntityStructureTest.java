@@ -1,6 +1,8 @@
 package pl.cyfronet.fid.cmdbproxy.pdp;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -51,5 +53,12 @@ public class CmdbEntityStructureTest {
         assertThat(provider.getType()).isEqualTo("provider");
         assertThat(provider.getForeignKey()).isEqualTo("provider_id");
         assertThat(provider.getParents()).isEmpty();
+    }
+
+    @Test
+    public void testRoot() throws Exception {
+        assertTrue(entityStructure.isRoot("provider"));
+        assertFalse(entityStructure.isRoot("service"));
+        assertFalse(entityStructure.isRoot("image"));
     }
 }
