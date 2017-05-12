@@ -1,4 +1,4 @@
-package pl.cyfronet.fid.cmdbproxy.security;
+package pl.cyfronet.fid.cmdbproxy.web.filter;
 
 import java.io.IOException;
 import java.util.Optional;
@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -28,6 +29,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Component
+@Order(1)
 public class OidcAuthenticationFilter extends OncePerRequestFilter {
 
     private static final String BEARER_REGEXP = "\\ABearer (.*)\\z";
