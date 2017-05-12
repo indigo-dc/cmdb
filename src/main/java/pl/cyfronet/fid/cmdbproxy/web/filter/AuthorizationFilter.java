@@ -19,7 +19,6 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
-import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.web.servlet.handler.RequestMatchResult;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
@@ -27,7 +26,7 @@ import pl.cyfronet.fid.cmdbproxy.pdp.Pdp;
 
 @Component
 @Order(3)
-public class AuthorizationFilter extends OncePerRequestFilter {
+public class AuthorizationFilter extends CmdbCrudAwareFilter {
 
     @Value("${proxy.cmdb-crud.servlet_url}")
     private String cmdbCrudUrl;
@@ -112,10 +111,6 @@ public class AuthorizationFilter extends OncePerRequestFilter {
         } catch (IOException e) {
             return false;
         }
-    }
-
-    private boolean cmdbCrudRequest(HttpServletRequest request) {
-        return cmdbCrudUrl.equals(request.getServletPath() + "/*");
     }
 
     private boolean isMethod(HttpServletRequest request, HttpMethod... methods) {

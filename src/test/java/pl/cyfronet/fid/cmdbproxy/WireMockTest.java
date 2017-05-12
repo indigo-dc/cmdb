@@ -88,6 +88,14 @@ public abstract class WireMockTest {
                     .withStatus(HttpStatus.OK.value())));
     }
 
+    protected void stubAuthGetOk(String path, String responseBody, String username, String password) {
+        stubFor(WireMock.get(urlEqualTo(path))
+                .withBasicAuth(username, password)
+                .willReturn(aResponse()
+                    .withBody(responseBody)
+                    .withStatus(HttpStatus.OK.value())));
+    }
+
     protected void stubPostOk(String path, String body) {
         stubFor(WireMock.post(urlEqualTo(path))
                 .willReturn(aResponse()

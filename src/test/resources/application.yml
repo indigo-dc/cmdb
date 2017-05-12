@@ -9,6 +9,8 @@ proxy:
   cmdb-crud:
     servlet_url: /cmdb-crud/*
     target_url: http://localhost:${wiremock.server.port}/crud
+    username: cmdbU
+    password: cmdbP
 
 oidc:
   userinfo: http://localhost:${wiremock.server.port}/userinfo

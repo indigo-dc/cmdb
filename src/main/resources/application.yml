@@ -9,6 +9,8 @@ proxy:
   cmdb-crud:
     servlet_url: /cmdb-crud/*
     target_url: http://couch.cloud.plgrid.pl/indigo-cmdb-v2
+    # username: XXX
+    # password: XXX
 
 oidc:
   userinfo: https://iam-test.indigo-datacloud.eu/userinfo
