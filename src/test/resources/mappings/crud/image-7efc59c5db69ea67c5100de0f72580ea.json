@@ -9,6 +9,7 @@
       "_id": "7efc59c5db69ea67c5100de0f72580ea",
       "_rev": "1-1a77cddb6627308faae8667b7e7cefc7",
       "type": "image",
+	  "owners": ["userA"],
       "data": {
         "image_id": "xxx",
         "image_name": "image-create-test",
@@ -16,8 +17,7 @@
         "type": "linux",
         "distribution": "ubuntu",
         "version": "14.04",
-        "service": "4401ac5dc8cfbbb737b0a025758cf045",
-        "owners": ["userA"]
+        "service": "4401ac5dc8cfbbb737b0a025758cf045"
       }
     },
     "headers": {

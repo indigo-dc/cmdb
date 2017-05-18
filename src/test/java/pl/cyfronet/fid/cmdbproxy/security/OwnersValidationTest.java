@@ -35,7 +35,7 @@ public class OwnersValidationTest extends WireMockTest {
         stubOKUserInfo("valid", "user");
         when(pdp.canCreate(eq("user"), any(InputStream.class))).thenReturn(true);
         stubFor(WireMock.put(urlEqualTo("/crud/without-owner"))
-                .withRequestBody(equalToJson("{\"type\":\"provider\",\"data\":{\"name\":\"root\",\"owners\":[\"user\"]}}"))
+                .withRequestBody(equalToJson("{\"type\":\"provider\",\"owners\":[\"user\"],\"data\":{\"name\":\"root\"}}"))
                 .willReturn(aResponse()
                     .withBody("ok")
                     .withStatus(HttpStatus.CREATED.value())));
@@ -53,14 +53,14 @@ public class OwnersValidationTest extends WireMockTest {
         stubOKUserInfo("valid", "user");
         when(pdp.canCreate(eq("user"), any(InputStream.class))).thenReturn(true);
         stubFor(WireMock.put(urlEqualTo("/crud/with-owner"))
-                .withRequestBody(equalToJson("{\"type\":\"provider\",\"data\":{\"name\":\"root\",\"owners\":[\"differentUser\"]}}"))
+                .withRequestBody(equalToJson("{\"type\":\"provider\",\"owners\":[\"differentUser\"],\"data\":{\"name\":\"root\"}}"))
                 .willReturn(aResponse()
                     .withBody("ok")
                     .withStatus(HttpStatus.CREATED.value())));
 
 
         ResponseEntity<String> response = put("/cmdb-crud/with-owner", "valid",
-                "{\"type\": \"provider\", \"data\": {\"name\": \"root\",\"owners\":[\"differentUser\"]}}");
+                "{\"type\": \"provider\",\"owners\":[\"differentUser\"], \"data\": {\"name\": \"root\"}}");
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CREATED);
         assertThat(response.getBody()).isEqualTo("ok");

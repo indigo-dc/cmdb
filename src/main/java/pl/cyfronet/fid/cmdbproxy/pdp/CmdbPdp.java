@@ -30,6 +30,9 @@ public class CmdbPdp implements Pdp {
         @JsonProperty("data")
         Map<String, Object> data;
 
+        @JsonProperty("owners")
+        List<String> owners;
+
         @JsonProperty("type")
         String type;
     }
@@ -69,12 +72,10 @@ public class CmdbPdp implements Pdp {
         try {
             Item item = new RestTemplate().getForObject(targetUrl + "/" + entityId, Item.class);
             Entity entity = entityStructure.getEntity(item.type);
-            @SuppressWarnings("unchecked")
-            List<String> owners = (List<String>)item.data.get("owners");
 
             if(isWrongType(expectedType, item.type)) {
                 return false;
-            } else if(notNullable(owners).contains(userId)) {
+            } else if(notNullable(item.owners).contains(userId)) {
                 return true;
             } else {
                 return isParentOwner(userId, entity, item);

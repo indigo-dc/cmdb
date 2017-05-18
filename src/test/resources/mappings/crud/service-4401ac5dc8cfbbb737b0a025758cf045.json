@@ -8,6 +8,8 @@
     "jsonBody": {
       "_id": "4401ac5dc8cfbbb737b0a025758cf045",
       "_rev": "8-fc9b82321e34175808d925667f28096a",
+      "type": "service",
+        "owners": ["userB"], 
       "data": {
         "primary_key": "8253G0",
         "hostname": "occi-api.100percentit.com",
@@ -27,10 +29,8 @@
         "extensions": null,
         "type": "compute",
         "provider_id": "provider-100IT",
-        "endpoint": "https://xxx.yyy.zz",
-        "owners": ["userB"]        
-      },
-      "type": "service"
+        "endpoint": "https://xxx.yyy.zz"
+      }
     },
     "headers": {
       "Content-Type": "application/json"

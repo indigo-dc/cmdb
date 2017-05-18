@@ -25,6 +25,8 @@ import pl.cyfronet.fid.cmdbproxy.web.ResettableStreamHttpServletRequest;
 @Order(4)
 public class OwnersValidationFilter extends CmdbCrudAwareFilter {
 
+    private static final String OWNERS_TAG = "owners";
+
     @Autowired
     private ObjectMapper mapper;
 
@@ -61,13 +63,10 @@ public class OwnersValidationFilter extends CmdbCrudAwareFilter {
         Map<String, Object> item = getItem(request);
 
         if (isRootItem(item)) {
-            Map<String, Object> data = (Map<String, Object>) item.get("data");
-            if (data != null) {
-                if (!data.containsKey("owners") && data.get("owners") instanceof List) {
-                    List<String> owners = (List<String>) data.get("owners");
-                    if (owners != null && owners.size() > 0) {
-                        return;
-                    }
+            if (!item.containsKey(OWNERS_TAG) && item.get(OWNERS_TAG) instanceof List) {
+                List<String> owners = (List<String>) item.get(OWNERS_TAG);
+                if (owners != null && owners.size() > 0) {
+                    return;
                 }
             }
             throw new BadRequest();
@@ -90,20 +89,15 @@ public class OwnersValidationFilter extends CmdbCrudAwareFilter {
     private void guaranteeOwnerExists(Map<String, Object> item, ResettableStreamHttpServletRequest request)
             throws BadRequest {
         try {
-            Map<String, Object> data = (Map<String, Object>) item.get("data");
-            if (data != null) {
-                if (!data.containsKey("owners") || !(data.get("owners") instanceof List)) {
-                    data.put("owners", new ArrayList<String>());
-                }
-                List<String> owners = (List<String>) data.get("owners");
+            if (!item.containsKey(OWNERS_TAG) || !(item.get(OWNERS_TAG) instanceof List)) {
+                item.put(OWNERS_TAG, new ArrayList<String>());
+            }
+            List<String> owners = (List<String>) item.get(OWNERS_TAG);
 
-                if (owners.isEmpty()) {
-                    owners.add(getCurrentUser());
-                    String newBody = mapper.writeValueAsString(item);
-                    request.resetInputStream(newBody.getBytes());
-                }
-            } else {
-                throw new BadRequest();
+            if (owners.isEmpty()) {
+                owners.add(getCurrentUser());
+                String newBody = mapper.writeValueAsString(item);
+                request.resetInputStream(newBody.getBytes());
             }
         } catch (Exception e) {
             throw new BadRequest();
