@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
+import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -31,16 +32,18 @@ public class OwnersValidationFilter extends CmdbCrudAwareFilter {
     private EntityStructure structure;
 
     @SuppressWarnings("serial")
-    private static class BadRequest extends Exception { }
+    private static class BadRequest extends Exception {
+    }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
-        if (cmdbCrudRequest(request) && isCreate(request)) {
+        if (cmdbCrudRequest(request)) {
             try {
-                Map<String, Object> item = getItem(request);
-                if (isRootItem(item)) {
-                    guaranteeOwnerExists(item, (ResettableStreamHttpServletRequest)request);
+                if (isCreate(request)) {
+                    guaranteeOwnerExists(request, response, filterChain);
+                } else if (isMethod(request, HttpMethod.PUT)) {
+                    checkOwnerExists(request, response, filterChain);
                 }
                 filterChain.doFilter(request, response);
             } catch (BadRequest e) {
@@ -52,16 +55,44 @@ public class OwnersValidationFilter extends CmdbCrudAwareFilter {
 
     }
 
+    @SuppressWarnings("unchecked")
+    private void checkOwnerExists(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+            throws BadRequest {
+        Map<String, Object> item = getItem(request);
+
+        if (isRootItem(item)) {
+            Map<String, Object> data = (Map<String, Object>) item.get("data");
+            if (data != null) {
+                if (!data.containsKey("owners") && data.get("owners") instanceof List) {
+                    List<String> owners = (List<String>) data.get("owners");
+                    if (owners != null && owners.size() > 0) {
+                        return;
+                    }
+                }
+            }
+            throw new BadRequest();
+        }
+    }
+
+    private void guaranteeOwnerExists(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+            throws IOException, ServletException, BadRequest {
+        Map<String, Object> item = getItem(request);
+        if (isRootItem(item)) {
+            guaranteeOwnerExists(item, (ResettableStreamHttpServletRequest) request);
+        }
+    }
+
     private boolean isRootItem(Map<String, Object> item) {
-        return structure.isRoot((String)item.get("type"));
+        return structure.isRoot((String) item.get("type"));
     }
 
     @SuppressWarnings("unchecked")
-    private void guaranteeOwnerExists(Map<String, Object> item, ResettableStreamHttpServletRequest request) throws BadRequest {
+    private void guaranteeOwnerExists(Map<String, Object> item, ResettableStreamHttpServletRequest request)
+            throws BadRequest {
         try {
             Map<String, Object> data = (Map<String, Object>) item.get("data");
             if (data != null) {
-                if (!data.containsKey("owners")) {
+                if (!data.containsKey("owners") || !(data.get("owners") instanceof List)) {
                     data.put("owners", new ArrayList<String>());
                 }
                 List<String> owners = (List<String>) data.get("owners");
@@ -69,7 +100,6 @@ public class OwnersValidationFilter extends CmdbCrudAwareFilter {
                 if (owners.isEmpty()) {
                     owners.add(getCurrentUser());
                     String newBody = mapper.writeValueAsString(item);
-                    System.out.println("new body: " + newBody);
                     request.resetInputStream(newBody.getBytes());
                 }
             } else {
@@ -82,7 +112,8 @@ public class OwnersValidationFilter extends CmdbCrudAwareFilter {
 
     private Map<String, Object> getItem(HttpServletRequest request) throws BadRequest {
         try {
-            return mapper.readValue(request.getInputStream(), new TypeReference<Map<String, Object>>() {});
+            return mapper.readValue(request.getInputStream(), new TypeReference<Map<String, Object>>() {
+            });
         } catch (IOException e) {
             throw new BadRequest();
         }

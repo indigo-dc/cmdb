@@ -26,6 +26,10 @@ public class OwnersValidationTest extends WireMockTest {
     @Autowired
     private Pdp pdp;
 
+    //
+    // Create new elements
+    //
+
     @Test
     public void currentUserIsAddedToOwnersListForRootItem() throws Exception {
         stubOKUserInfo("valid", "user");
@@ -45,7 +49,7 @@ public class OwnersValidationTest extends WireMockTest {
     }
 
     @Test
-    public void currentUserIsNotUpdatedForRootItem() throws Exception {
+    public void currentUserIsNotAddedForRootItemWhenOwnersListIsNotEmpty() throws Exception {
         stubOKUserInfo("valid", "user");
         when(pdp.canCreate(eq("user"), any(InputStream.class))).thenReturn(true);
         stubFor(WireMock.put(urlEqualTo("/crud/with-owner"))
@@ -78,5 +82,37 @@ public class OwnersValidationTest extends WireMockTest {
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CREATED);
         assertThat(response.getBody()).isEqualTo("ok");
+    }
+
+    //
+    // Updating elements
+    //
+
+    @Test
+    public void rootItemRequireAtLeastOneOwner() throws Exception {
+       stubOKUserInfo("valid", "user");
+       when(pdp.canManage("user", "provider-100IT")).thenReturn(true);
+
+
+       ResponseEntity<String> response = put("/cmdb-crud/provider-100IT", "valid",
+               "{\"type\":\"provider\", \"_rev\": \"1-cc1726a91bc298e912d20ac2f15ec58e\", \"data\":{\"name\": \"provider\"}}");
+
+       assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
+    }
+
+    @Test
+    public void leafOwnersListIsNotRequired() throws Exception {
+       stubOKUserInfo("valid", "user");
+       when(pdp.canManage("user", "leaf")).thenReturn(true);
+       stubFor(WireMock.put(urlEqualTo("/crud/leaf"))
+               .willReturn(aResponse()
+                   .withBody("ok")
+                   .withStatus(HttpStatus.OK.value())));
+
+       ResponseEntity<String> response = put("/cmdb-crud/leaf", "valid",
+               "{\"type\":\"service\", \"_rev\": \"rev\", \"data\":{\"name\": \"service\"}}");
+
+       assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+       assertThat(response.getBody()).isEqualTo("ok");
     }
 }

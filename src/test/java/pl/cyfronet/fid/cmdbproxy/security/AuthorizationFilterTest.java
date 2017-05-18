@@ -21,7 +21,7 @@ public class AuthorizationFilterTest extends WireMockTest {
     private static final String CREATE_REQUEST_BODY =
             "{\"type\": \"image\", \"data\": {\"service\": \"4401ac5dc8cfbbb737b0a025758cf045\"}}";
     private static final String UPDATE_REQUEST_BODY =
-            "{\"_rev\": \"rev\", \"type\": \"image\", \"data\": {\"service\": \"4401ac5dc8cfbbb737b0a025758cf045\"}}";
+            "{\"_rev\": \"rev\", \"type\": \"image\", \"data\": {\"service\": \"4401ac5dc8cfbbb737b0a025758cf045\", \"owners\": [\"user\"]}}";
 
     @Autowired
     private Pdp pdp;
