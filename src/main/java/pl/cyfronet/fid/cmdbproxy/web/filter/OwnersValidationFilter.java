@@ -40,7 +40,7 @@ public class OwnersValidationFilter extends CmdbCrudAwareFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
-        if (cmdbCrudRequest(request)) {
+        if (isCmdbCrudRequest(request)) {
             try {
                 if (isCreate(request)) {
                     guaranteeOwnerExists(request, response, filterChain);

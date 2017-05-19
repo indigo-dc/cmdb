@@ -1,4 +1,4 @@
-package pl.cyfronet.fid.cmdbproxy.security;
+package pl.cyfronet.fid.cmdbproxy.requests;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.any;
@@ -42,11 +42,11 @@ public class AuthorizationFilterTest extends WireMockTest {
 
     @Test
     public void otherThanGetAllowedOnlyForCMDBCrud() throws Exception {
-        stubDeleteOk("/crud/delete");
-        when(pdp.canManage("user", "delete")).thenReturn(true);
+        stubPutOk("/crud/update", "{\"_rev\": \"rev\"}");
+        when(pdp.canManage("user", "update")).thenReturn(true);
 
-        assertThat(delete("/cmdb/delete", "valid").getStatusCode()).isEqualTo(HttpStatus.FORBIDDEN);
-        assertThat(delete("/cmdb-crud/delete", "valid").getStatusCode()).isEqualTo(HttpStatus.NO_CONTENT);
+        assertThat(put("/cmdb/update", "valid", "{\"_rev\": \"rev\"}").getStatusCode()).isEqualTo(HttpStatus.FORBIDDEN);
+        assertThat(put("/cmdb-crud/update", "valid", "{\"_rev\": \"rev\"}").getStatusCode()).isEqualTo(HttpStatus.OK);
     }
 
     //
@@ -127,12 +127,12 @@ public class AuthorizationFilterTest extends WireMockTest {
 
     @Test
     public void itemOwnerCanDeleteIt() throws Exception {
-        stubDeleteOk("/crud/existing-item");
+        stubPostOk("/crud/_bulk_docs", "{\"docs\":[{\"_id\":\"existing-item\",\"_deleted\":true,\"_rev\":\"existing-item-rev\"}]}");
         when(pdp.canManage("user", "existing-item")).thenReturn(true);
 
         ResponseEntity<String> response = delete("/cmdb-crud/existing-item", "valid");
 
-        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NO_CONTENT);
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CREATED);
     }
 
     @Test

@@ -1,19 +1,26 @@
 package pl.cyfronet.fid.cmdbproxy.pdp;
 
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
-class Entity {
-    String type;
-    String foreignKey;
-    List<Entity> parents;
+public class Entity {
+    final String type;
+    final Map<String, Entity> parents = new HashMap<>();
+    final Map<String, Entity> children = new HashMap<>();
+
+    public Entity(String type) {
+        this.type = type;
+    }
 
     public String getType() {
         return type;
     }
-    public String getForeignKey() {
-        return foreignKey;
-    }
-    public List<Entity> getParents() {
+
+    public Map<String, Entity> getParents() {
         return parents;
+    }
+
+    public Map<String, Entity> getChildren() {
+        return children;
     }
 }

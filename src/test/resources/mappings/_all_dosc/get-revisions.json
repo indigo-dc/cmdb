@@ -1,0 +1,35 @@
+{
+  "request": {
+    "method": "POST",
+    "url": "/crud/_all_docs",
+    "bodyPatterns" : [ {
+      "equalToJson" : "{ \"keys\": [\"id1\", \"id2\"] }"
+    } ]
+  },
+  "response": {
+    "status": 200,
+    "jsonBody": {
+      "total_rows": 773,
+      "offset": 0,
+      "rows": [
+        {
+          "id": "id1",
+          "key": "id1",
+          "value": {
+            "rev": "id1-rev"
+          }
+        },
+        {
+          "id": "id2",
+          "key": "id2",
+          "value": {
+            "rev": "id2-rev"
+          }
+        }
+      ]
+    },
+    "headers": {
+      "Content-Type": "application/json"
+    }
+  }
+}

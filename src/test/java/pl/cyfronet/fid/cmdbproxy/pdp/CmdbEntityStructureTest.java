@@ -4,6 +4,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.util.Map;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -32,7 +34,6 @@ public class CmdbEntityStructureTest {
         Entity provider = entityStructure.getEntity("provider");
 
         assertThat(provider.getType()).isEqualTo("provider");
-        assertThat(provider.getForeignKey()).isNull();
         assertThat(provider.getParents()).isEmpty();
     }
 
@@ -41,17 +42,14 @@ public class CmdbEntityStructureTest {
         Entity image = entityStructure.getEntity("image");
 
         assertThat(image.getType()).isEqualTo("image");
-        assertThat(image.getForeignKey()).isNull();
         assertThat(image.getParents()).isNotEmpty();
 
-        Entity service = image.getParents().get(0);
+        Entity service = image.getParents().get("service");
         assertThat(service.getType()).isEqualTo("service");
-        assertThat(service.getForeignKey()).isEqualTo("service");
         assertThat(service.getParents()).isNotEmpty();
 
-        Entity provider = image.getParents().get(0).getParents().get(0);
+        Entity provider = image.getParents().get("service").getParents().get("provider_id");
         assertThat(provider.getType()).isEqualTo("provider");
-        assertThat(provider.getForeignKey()).isEqualTo("provider_id");
         assertThat(provider.getParents()).isEmpty();
     }
 
@@ -60,5 +58,24 @@ public class CmdbEntityStructureTest {
         assertTrue(entityStructure.isRoot("provider"));
         assertFalse(entityStructure.isRoot("service"));
         assertFalse(entityStructure.isRoot("image"));
+    }
+
+    @Test
+    public void testRootChildren() throws Exception {
+       Map<String, Entity> children = entityStructure.getEntity("provider").getChildren();
+
+       assertThat(children.size()).isEqualTo(1);
+       assertThat(children.get("services").getType()).isEqualTo("service");
+
+
+       assertThat(children.get("services").getChildren().size()).isEqualTo(1);
+       assertThat(children.get("services").getChildren().get("images").getType()).isEqualTo("image");
+    }
+
+    @Test
+    public void testLeafChildren() throws Exception {
+       Map<String, Entity> children = entityStructure.getEntity("image").getChildren();
+
+       assertThat(children.size()).isEqualTo(0);
     }
 }

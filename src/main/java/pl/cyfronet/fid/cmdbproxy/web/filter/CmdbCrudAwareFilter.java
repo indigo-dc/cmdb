@@ -20,7 +20,7 @@ public abstract class CmdbCrudAwareFilter extends OncePerRequestFilter {
     @Value("${proxy.cmdb-crud.servlet_url}")
     private String cmdbCrudUrl;
 
-    protected boolean cmdbCrudRequest(HttpServletRequest request) {
+    protected boolean isCmdbCrudRequest(HttpServletRequest request) {
         return cmdbCrudUrl.equals(request.getServletPath() + "/*");
     }
 

@@ -1,0 +1,51 @@
+{
+  "request": {
+    "method": "GET",
+    "url": "/provider/id/provider-delete/has_many/services"
+  },
+  "response": {
+    "status": 200,
+    "jsonBody": {
+      "total_rows": 77,
+      "offset": 68,
+      "rows": [
+        {
+          "id": "service-delete1",
+          "key": [
+            "provider-delete",
+            "services"
+          ],
+          "value": {
+            "provider_id": "provider-delete",
+            "type": "compute"
+          }
+        },
+        {
+          "id": "service-delete2",
+          "key": [
+            "provider-delete",
+            "services"
+          ],
+          "value": {
+            "provider_id": "provider-delete",
+            "type": "compute"
+          }
+        },
+        {
+          "id": "service-delete3",
+          "key": [
+            "provider-delete",
+            "services"
+          ],
+          "value": {
+            "provider_id": "provider-delete",
+            "type": "compute"
+          }
+        }
+      ]
+    },
+    "headers": {
+      "Content-Type": "application/json"
+    }
+  }
+}

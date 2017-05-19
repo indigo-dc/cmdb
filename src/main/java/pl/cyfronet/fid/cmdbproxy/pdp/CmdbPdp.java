@@ -1,11 +1,11 @@
 package pl.cyfronet.fid.cmdbproxy.pdp;
 
+import static pl.cyfronet.fid.cmdbproxy.util.CollectionUtil.notNullable;
+
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -86,17 +86,13 @@ public class CmdbPdp implements Pdp {
     }
 
     private boolean isParentOwner(String userId, Entity entity, Item item) {
-        return notNullable(entity.getParents()).stream()
-                .anyMatch(parent -> canManage(userId,
-                                              (String) item.data.get(parent.getForeignKey()),
-                                              parent.type));
+        return notNullable(entity.getParents()).entrySet().stream()
+                .anyMatch(entry -> canManage(userId,
+                                             (String) item.data.get(entry.getKey()),
+                                             entry.getValue().type));
     }
 
     private boolean isWrongType(String expected, String given) {
         return expected != null && !expected.equals(given);
-    }
-
-    private <T> List<T> notNullable(List<T> list) {
-        return Optional.ofNullable(list).orElse(Collections.<T>emptyList());
     }
 }

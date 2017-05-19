@@ -23,6 +23,8 @@ import pl.cyfronet.fid.cmdbproxy.pdp.Pdp;
 @Order(3)
 public class AuthorizationFilter extends CmdbCrudAwareFilter {
 
+    public static final String CMDB_ID = "cmdbId";
+
     @Value("${proxy.cmdb-crud.servlet_url}")
     private String cmdbCrudUrl;
 
@@ -36,7 +38,7 @@ public class AuthorizationFilter extends CmdbCrudAwareFilter {
             throws ServletException, IOException {
         if (isMethod(request, HttpMethod.GET)) {
             chain.doFilter(request, response);
-        } else if (cmdbCrudRequest(request)) {
+        } else if (isCmdbCrudRequest(request)) {
             if (isCreate(request)) {
                 doCreateFilter(request, response, chain);
             } else if(isMethod(request, HttpMethod.PUT, HttpMethod.DELETE)) {
@@ -64,6 +66,7 @@ public class AuthorizationFilter extends CmdbCrudAwareFilter {
     private void doManageFilter(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
         String itemId = getItemId(request);
         if (itemId != null) {
+            request.setAttribute(CMDB_ID, itemId);
             if (canManage(itemId)) {
                 chain.doFilter(request, response);
             } else {

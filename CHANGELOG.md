@@ -18,6 +18,7 @@ Please view this file on the master branch, on stable branches it's out of date.
 - CMDB CRUD actions authorization (@mkasztelnik)
 - Add CMDB CRUD credentials into CRUD request (@mkasztelnik)
 - Current user is added into new created root item when not present (@mkasztelnik)
+- Cascade items delete using bulk update (@mkasztelnik)
 
 ### Changed
 

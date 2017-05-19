@@ -1,0 +1,28 @@
+{
+  "request": {
+    "method": "GET",
+    "url": "/crud/provider-delete"
+  },
+  "response": {
+    "status": 200,
+    "jsonBody": {
+    	"_id": "provider-delete",
+      "_rev": "provider-delete-rev",
+      "type": "provider",
+      "owners": ["userC", "userD"],
+      "data": {
+        "id": "419",
+        "primary_key": "80090G0",
+        "name": "100IT",
+        "country": "United Kingdom",
+        "country_code": "GB",
+        "roc": "NGI_UK",
+        "subgrid": "",
+        "giis_url": "ldap://xxx.yyy.zz"
+      }
+    },
+    "headers": {
+      "Content-Type": "application/json"
+    }
+  }
+}

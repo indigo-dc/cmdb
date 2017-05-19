@@ -1,4 +1,4 @@
-package pl.cyfronet.fid.cmdbproxy.security;
+package pl.cyfronet.fid.cmdbproxy.requests;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
 import static com.github.tomakehurst.wiremock.client.WireMock.equalToJson;

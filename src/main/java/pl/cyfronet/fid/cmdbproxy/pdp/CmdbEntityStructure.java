@@ -21,16 +21,28 @@ public class CmdbEntityStructure implements EntityStructure {
 
     private String targetUrl;
 
-    private Map<String, List<BelongsTo>> dependencies;
+    private Map<String, Entity> entities;
 
     @JsonIgnoreProperties(ignoreUnknown = true)
     private static class CmdbEntity {
         @JsonProperty("belongs_to")
-        List<BelongsTo> belongsTo;
+        List<Parent> belongsTo;
+
+        @JsonProperty("has_many")
+        List<Child> hasMany;
     }
 
     @JsonIgnoreProperties(ignoreUnknown = true)
-    private static class BelongsTo {
+    private static class Child {
+        @JsonProperty("name")
+        String name;
+
+        @JsonProperty("type")
+        String type;
+    }
+
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    private static class Parent {
         @JsonProperty("type")
         String type;
 
@@ -48,41 +60,28 @@ public class CmdbEntityStructure implements EntityStructure {
         @SuppressWarnings("unchecked")
         List<String> entitiesNames = new RestTemplate().getForObject(targetUrl, List.class);
 
-        dependencies = entitiesNames.stream()
-                .collect(Collectors.toMap(en -> en, en -> getDependencies(getCmdbEntity(en))));
+        entities = entitiesNames.stream()
+                .map(en -> new Entity(en)).collect(Collectors.toMap(e -> e.type, e -> e));
+
+        entities.values().forEach(e -> {
+            CmdbEntity cmdbEntity = getCmdbEntity(e.type);
+
+            notNullable(cmdbEntity.belongsTo).forEach(p -> e.parents.put(p.foreignKey, entities.get(p.type)));
+            notNullable(cmdbEntity.hasMany).forEach(ch -> e.children.put(ch.name, entities.get(ch.type)));
+        });
     }
 
     private CmdbEntity getCmdbEntity(String entityName) {
         return new RestTemplate().getForObject(targetUrl + "/" + entityName + "/schema", CmdbEntity.class);
     }
 
-    private List<BelongsTo> getDependencies(CmdbEntity entity) {
-        return Optional.ofNullable(entity.belongsTo).orElse(Collections.<BelongsTo>emptyList());
+    private <T> List<T> notNullable(List<T> list) {
+        return Optional.ofNullable(list).orElse(Collections.<T>emptyList());
     }
 
     @Override
     public Entity getEntity(String entityName) {
-        Entity entity = new Entity();
-        entity.type = entityName;
-
-        return populateWithParents(entity);
-    }
-
-    private Entity populateWithParents(Entity e) {
-        Optional.ofNullable(dependencies.get(e.type)).ifPresent(cmdbParents -> {
-            e.parents = getParents(cmdbParents);
-        });
-        return e;
-    }
-
-    private List<Entity> getParents(List<BelongsTo> cmdbParents) {
-        return cmdbParents.stream().map(cmdbE -> {
-            Entity parent = new Entity();
-            parent.type = cmdbE.type;
-            parent.foreignKey = cmdbE.foreignKey;
-
-            return populateWithParents(parent);
-        }).collect(Collectors.toList());
+        return Optional.ofNullable(entities.get(entityName)).orElse(new Entity(entityName));
     }
 
     @Override
