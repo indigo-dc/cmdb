@@ -38,3 +38,29 @@ deployment. This can be achieved by doing the following steps:
 
 Any properties can be overridden by placing an `application.properties`
 file next to the jar file.
+
+## Docker
+
+Application can be also packed and started as docker container. To build docker image run following command:
+
+```
+./mvnw package docker:build
+```
+
+As a result `pl.cyfronet.fid/cmdb-proxy` will be build. Next, it can be started using following command:
+
+```
+docker run -e CMDB_CRUD_USERNAME=XXX -e CMDB_CRUD_PASSWORD=XXX -p 8080:8080 pl.cyfronet.fid/cmdb-proxy 
+
+```
+
+Username and password parameters are mandatory, additional parameters which can be passed into started container are
+as follow:
+
+```
+CMDB_TARGET_URL=http://indigo.cloud.plgrid.pl/cmdb
+CMDB_CRUD_TARGET_URL=http://couch.cloud.plgrid.pl/indigo-cmdb-v2
+CMDB_CRUD_USERNAME=FIXME
+CMDB_CRUD_PASSWORD=FIXME
+OIDC_USERINFO=https://iam-test.indigo-datacloud.eu/userinfo
+```
