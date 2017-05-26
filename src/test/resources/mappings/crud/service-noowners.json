@@ -1,7 +1,7 @@
 {
   "request": {
     "method": "GET",
-    "url": "/noowners"
+    "url": "/crud/noowners"
   },
   "response": {
     "status": 200,

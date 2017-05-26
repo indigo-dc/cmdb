@@ -22,6 +22,7 @@ Please view this file on the master branch, on stable branches it's out of date.
 - Add possibility to pass app properties using docker environment variables (@mkasztelnik)
 - Administrator can do everything (admin is an user belonging to defined group) (@mkasztelnik)
 - Only admin can create root item (@mkasztelnik)
+- Existing item type cannot be changed (@mkasztelnik)
 
 ### Changed
 

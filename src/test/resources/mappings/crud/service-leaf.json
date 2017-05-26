@@ -1,13 +1,13 @@
 {
   "request": {
     "method": "GET",
-    "url": "/crud/7efc59c5db69ea67c5100de0f72580ea"
+    "url": "/crud/leaf"
   },
   "response": {
     "status": 200,
     "jsonBody": {
-      "_id": "7efc59c5db69ea67c5100de0f72580ea",
-      "_rev": "1-1a77cddb6627308faae8667b7e7cefc7",
+      "_id": "leaf",
+      "_rev": "rev",
       "type": "image",
 	  "owners": ["userA"],
       "data": {
