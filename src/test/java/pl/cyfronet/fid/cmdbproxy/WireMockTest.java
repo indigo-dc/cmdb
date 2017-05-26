@@ -6,6 +6,7 @@ import static com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo;
 
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.client.TestRestTemplate;
@@ -28,6 +29,9 @@ public abstract class WireMockTest {
     @Autowired
     private TestRestTemplate restTemplate;
 
+    @Value("${proxy.cmdb-crud.admin_group}")
+    private String adminGroupName;
+
     protected void stubOKUserInfo(String bearerValue) {
         stubOKUserInfo(bearerValue, "usersub");
     }
@@ -37,7 +41,17 @@ public abstract class WireMockTest {
                 .withHeader("Authorization", new EqualToPattern("Bearer " + bearerValue))
                 .willReturn(aResponse()
                         .withHeader("Content-Type", "application/json")
-                        .withBody("{\"sub\": \"" + userSub + "\"}").withStatus(HttpStatus.OK.value())));
+                        .withBody("{\"sub\": \"" + userSub + "\"}")
+                        .withStatus(HttpStatus.OK.value())));
+    }
+
+    protected void stubOKAdminInfo(String bearerValue, String userSub) {
+        stubFor(WireMock.get(urlEqualTo("/userinfo"))
+                .withHeader("Authorization", new EqualToPattern("Bearer " + bearerValue))
+                .willReturn(aResponse()
+                        .withHeader("Content-Type", "application/json")
+                        .withBody("{\"sub\": \"" + userSub + "\", \"groups\":[\"" + adminGroupName + "\"]}")
+                        .withStatus(HttpStatus.OK.value())));
     }
 
     protected void stubBadUserInfo(String bearerValue) {

@@ -11,6 +11,7 @@ proxy:
     target_url: http://localhost:${wiremock.server.port}/crud
     username: cmdbU
     password: cmdbP
+    admin_group: cmdb-dev-admins
 
 oidc:
   userinfo: http://localhost:${wiremock.server.port}/userinfo

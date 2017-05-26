@@ -11,6 +11,7 @@ proxy:
     target_url: http://couch.cloud.plgrid.pl/indigo-cmdb-v2
     # username: XXX
     # password: XXX
+    admin_group: cmdb-dev-admins
 
 oidc:
   userinfo: https://iam-test.indigo-datacloud.eu/userinfo

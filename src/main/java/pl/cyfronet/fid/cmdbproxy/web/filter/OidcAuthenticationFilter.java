@@ -1,6 +1,7 @@
 package pl.cyfronet.fid.cmdbproxy.web.filter;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -27,57 +28,73 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import pl.cyfronet.fid.cmdbproxy.util.CollectionUtil;
 
 @Component
 @Order(1)
 public class OidcAuthenticationFilter extends OncePerRequestFilter {
 
-    private static final String BEARER_REGEXP = "\\ABearer (.*)\\z";
+	public static final String ROLE_USER = "ROLE_USER";
 
-    private static final Logger log = LoggerFactory.getLogger(OidcAuthenticationFilter.class);
+	public static final String ROLE_ADMIN = "ROLE_ADMIN";
 
-    @Value("${oidc.userinfo}")
-    private String userInfo;
+	private static final String BEARER_REGEXP = "\\ABearer (.*)\\z";
 
-    @JsonIgnoreProperties(ignoreUnknown = true)
-    private static class TokenDetails {
-        public String sub;
-    }
+	private static final Logger log = LoggerFactory.getLogger(OidcAuthenticationFilter.class);
 
-    @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
-            throws ServletException, IOException {
+	@Value("${oidc.userinfo}")
+	private String userInfo;
 
-        String authorizationHeader = Optional.ofNullable(request.getHeader("Authorization")).orElse("");
-        log.debug("Authorization: {}", authorizationHeader);
-        log.debug("from {}", request.getRemoteAddr());
+	@Value("${proxy.cmdb-crud.admin_group}")
+	private String adminGroupName;
 
-        Matcher m = Pattern.compile(BEARER_REGEXP).matcher(authorizationHeader);
-        if (m.find()) {
-            verifyAuthorization(m.group(1));
-        }
+	@JsonIgnoreProperties(ignoreUnknown = true)
+	private static class TokenDetails {
+		@JsonProperty("sub")
+		String sub;
 
-        filterChain.doFilter(request, response);
-    }
+		@JsonProperty("groups")
+		List<String> groups;
+	}
 
-    private void verifyAuthorization(String token) {
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        headers.set("Authorization", "Bearer " + token);
-        HttpEntity<String> entity = new HttpEntity<>(headers);
+	@Override
+	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+	        throws ServletException, IOException {
 
-        try {
-            RestTemplate restTemplate = new RestTemplate();
-            ResponseEntity<TokenDetails> exchange = restTemplate.exchange(userInfo, HttpMethod.GET,
-                                                                          entity, TokenDetails.class);
-            TokenDetails details = exchange.getBody();
+		String authorizationHeader = Optional.ofNullable(request.getHeader("Authorization")).orElse("");
+		log.debug("Authorization: {}", authorizationHeader);
+		log.debug("from {}", request.getRemoteAddr());
 
-            SecurityContextHolder.getContext()
-                    .setAuthentication(new UsernamePasswordAuthenticationToken(details.sub, token,
-                            AuthorityUtils.commaSeparatedStringToAuthorityList("ROLE_USER")));
-            log.debug("User logged in as: {}", details.sub);
-        } catch (Exception e) {
-            log.debug("Error while getting user info", e);
-        }
-    }
+		Matcher m = Pattern.compile(BEARER_REGEXP).matcher(authorizationHeader);
+		if (m.find()) {
+			verifyAuthorization(m.group(1));
+		}
+
+		filterChain.doFilter(request, response);
+	}
+
+	private void verifyAuthorization(String token) {
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_JSON);
+		headers.set("Authorization", "Bearer " + token);
+		HttpEntity<String> entity = new HttpEntity<>(headers);
+
+		try {
+			RestTemplate restTemplate = new RestTemplate();
+			ResponseEntity<TokenDetails> exchange = restTemplate.exchange(userInfo, HttpMethod.GET, entity, TokenDetails.class);
+			TokenDetails details = exchange.getBody();
+
+			SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(details.sub,
+			        token, AuthorityUtils.commaSeparatedStringToAuthorityList(getUserRole(details))));
+			log.debug("User logged in as: {}", details.sub);
+		} catch (Exception e) {
+			log.debug("Error while getting user info", e);
+		}
+	}
+
+	private String getUserRole(TokenDetails tokenDetails) {
+		return CollectionUtil.notNullable(tokenDetails.groups).contains(adminGroupName) ? ROLE_ADMIN : ROLE_USER;
+	}
 }

@@ -62,7 +62,7 @@ public class CmdbPdp implements Pdp {
             Item item = mapper.readValue(itemPayload, new TypeReference<Item>() {});
             Entity entity = entityStructure.getEntity(item.type);
 
-            return entity.getParents().size() == 0 || isParentOwner(userId, entity, item);
+            return isParentOwner(userId, entity, item);
         } catch (IOException e) {
             return false;
         }

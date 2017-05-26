@@ -17,35 +17,35 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 public abstract class CmdbCrudAwareFilter extends OncePerRequestFilter {
 
-    @Value("${proxy.cmdb-crud.servlet_url}")
-    private String cmdbCrudUrl;
+	@Value("${proxy.cmdb-crud.servlet_url}")
+	private String cmdbCrudUrl;
 
-    protected boolean isCmdbCrudRequest(HttpServletRequest request) {
-        return cmdbCrudUrl.equals(request.getServletPath() + "/*");
-    }
+	protected boolean isCmdbCrudRequest(HttpServletRequest request) {
+		return cmdbCrudUrl.equals(request.getServletPath() + "/*");
+	}
 
-    protected boolean isCreate(HttpServletRequest httpRequest) {
-        return isMethod(httpRequest, HttpMethod.POST, HttpMethod.PUT) && isCreateRequestBody(httpRequest);
-    }
+	protected boolean isCreate(HttpServletRequest httpRequest) {
+		return isMethod(httpRequest, HttpMethod.POST, HttpMethod.PUT) && isCreateRequestBody(httpRequest);
+	}
 
-    protected boolean isMethod(HttpServletRequest request, HttpMethod... methods) {
-        return Arrays.asList(methods).stream().anyMatch(m -> m.toString().equals(request.getMethod()));
-    }
+	protected boolean isMethod(HttpServletRequest request, HttpMethod... methods) {
+		return Arrays.asList(methods).stream().anyMatch(m -> m.toString().equals(request.getMethod()));
+	}
 
-    private boolean isCreateRequestBody(ServletRequest request) {
-        try {
-            return !IOUtils.toString(request.getInputStream(), Charset.defaultCharset()).contains("\"_rev\":");
-        } catch (IOException e) {
-            return false;
-        }
-    }
+	private boolean isCreateRequestBody(ServletRequest request) {
+		try {
+			return !IOUtils.toString(request.getInputStream(), Charset.defaultCharset()).contains("\"_rev\":");
+		} catch (IOException e) {
+			return false;
+		}
+	}
 
-    protected void badRequest(HttpServletResponse response, String msg) throws IOException {
-        response.sendError(HttpServletResponse.SC_BAD_REQUEST, msg);
-    }
+	protected void badRequest(HttpServletResponse response, String msg) throws IOException {
+		response.sendError(HttpServletResponse.SC_BAD_REQUEST, msg);
+	}
 
-    protected String getCurrentUser() {
-        return (String) ((UsernamePasswordAuthenticationToken) SecurityContextHolder.getContext().getAuthentication())
-                .getPrincipal();
-    }
+	protected String getCurrentUser() {
+		return (String) ((UsernamePasswordAuthenticationToken) SecurityContextHolder.getContext().getAuthentication())
+		        .getPrincipal();
+	}
 }

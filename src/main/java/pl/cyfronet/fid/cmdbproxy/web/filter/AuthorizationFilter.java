@@ -1,6 +1,7 @@
 package pl.cyfronet.fid.cmdbproxy.web.filter;
 
 import java.io.IOException;
+import java.util.Collection;
 import java.util.Map;
 
 import javax.servlet.FilterChain;
@@ -13,6 +14,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.handler.RequestMatchResult;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
@@ -89,21 +93,27 @@ public class AuthorizationFilter extends CmdbCrudAwareFilter {
 
     private boolean canCreate(ServletRequest request) {
         try {
-            return pdp.canCreate(getCurrentUser(), request.getInputStream());
+            return isAdmin() || pdp.canCreate(getCurrentUser(), request.getInputStream());
         } catch (IOException e) {
             return false;
         }
     }
 
     private boolean canManage(String itemId) {
-        return pdp.canManage(getCurrentUser(), itemId);
+        return isAdmin() || pdp.canManage(getCurrentUser(), itemId);
     }
 
-    private void permissionDenied(HttpServletResponse response) throws IOException {
+	private void permissionDenied(HttpServletResponse response) throws IOException {
         response.sendError(HttpServletResponse.SC_FORBIDDEN, "Access Denied");
     }
 
     private void badRequest(HttpServletResponse response) throws IOException {
         response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Bad request");
     }
+
+    private boolean isAdmin() {
+		Collection<? extends GrantedAuthority> authorities = SecurityContextHolder.getContext().getAuthentication()
+		        .getAuthorities();
+		return authorities.contains(new SimpleGrantedAuthority(OidcAuthenticationFilter.ROLE_ADMIN));
+	}
 }

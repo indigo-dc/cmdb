@@ -62,5 +62,6 @@ CMDB_TARGET_URL=http://indigo.cloud.plgrid.pl/cmdb
 CMDB_CRUD_TARGET_URL=http://couch.cloud.plgrid.pl/indigo-cmdb-v2
 CMDB_CRUD_USERNAME=FIXME
 CMDB_CRUD_PASSWORD=FIXME
+CMDB_CRUD_ADMIN_GROUP=cmdb-dev-admins
 OIDC_USERINFO=https://iam-test.indigo-datacloud.eu/userinfo
 ```

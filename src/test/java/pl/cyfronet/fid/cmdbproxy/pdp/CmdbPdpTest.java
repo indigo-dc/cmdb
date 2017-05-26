@@ -63,9 +63,9 @@ public class CmdbPdpTest extends WireMockTest {
     }
 
     @Test
-    public void testEveryoneCanCreateRoot() throws Exception {
+    public void nooneCanCreateRoot() throws Exception {
         String rootItem = "{\"type\": \"provider\"}";
 
-        assertThat(pdp.canCreate("user", IOUtils.toInputStream(rootItem, Charset.defaultCharset()))).isTrue();
+        assertThat(pdp.canCreate("user", IOUtils.toInputStream(rootItem, Charset.defaultCharset()))).isFalse();
     }
 }
