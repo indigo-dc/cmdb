@@ -110,7 +110,7 @@ public class OwnersValidationTest extends WireMockTest {
                    .withStatus(HttpStatus.OK.value())));
 
        ResponseEntity<String> response = put("/cmdb-crud/leaf", "valid",
-               "{\"type\":\"service\", \"_rev\": \"rev\", \"data\":{\"name\": \"service\"}}");
+               "{\"type\":\"image\", \"_rev\": \"rev\", \"data\":{\"name\": \"image\"}}");
 
        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
        assertThat(response.getBody()).isEqualTo("ok");

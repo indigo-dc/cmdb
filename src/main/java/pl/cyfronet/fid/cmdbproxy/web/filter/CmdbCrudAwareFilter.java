@@ -28,6 +28,10 @@ public abstract class CmdbCrudAwareFilter extends OncePerRequestFilter {
 		return isMethod(httpRequest, HttpMethod.POST, HttpMethod.PUT) && isCreateRequestBody(httpRequest);
 	}
 
+	protected boolean isUpdate(HttpServletRequest httpRequest) {
+        return isMethod(httpRequest, HttpMethod.PUT) && !isCreateRequestBody(httpRequest);
+    }
+
 	protected boolean isMethod(HttpServletRequest request, HttpMethod... methods) {
 		return Arrays.asList(methods).stream().anyMatch(m -> m.toString().equals(request.getMethod()));
 	}

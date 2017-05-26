@@ -42,11 +42,11 @@ public class AuthorizationFilterTest extends WireMockTest {
     @Test
     public void otherThanGetAllowedOnlyForCMDBCrud() throws Exception {
         stubOKUserInfo("valid", "user");
-        stubPutOk("/crud/update", "{\"_rev\": \"rev\"}");
-        when(pdp.canManage("user", "update")).thenReturn(true);
+        stubPutOk("/crud/leaf", "{\"_rev\": \"rev\"}");
+        when(pdp.canManage("user", "leaf")).thenReturn(true);
 
-        assertThat(put("/cmdb/update", "valid", "{\"_rev\": \"rev\"}").getStatusCode()).isEqualTo(HttpStatus.FORBIDDEN);
-        assertThat(put("/cmdb-crud/update", "valid", "{\"_rev\": \"rev\"}").getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(put("/cmdb/leaf", "valid", UPDATE_REQUEST_BODY).getStatusCode()).isEqualTo(HttpStatus.FORBIDDEN);
+        assertThat(put("/cmdb-crud/leaf", "valid", UPDATE_REQUEST_BODY).getStatusCode()).isEqualTo(HttpStatus.OK);
     }
 
     //
