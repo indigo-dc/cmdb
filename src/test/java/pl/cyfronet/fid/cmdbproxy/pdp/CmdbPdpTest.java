@@ -17,12 +17,16 @@ public class CmdbPdpTest extends WireMockTest {
 
     @Value("${proxy.cmdb.target_url}")
     private String targetUrl;
+
+    @Value("${proxy.cmdb-crud.target_url}")
+    private String crudTargetUrl;
+
     private CmdbPdp pdp;
 
     @Before
     public void setUp() {
         EntityStructure structure = new CmdbEntityStructure(targetUrl);
-        pdp = new CmdbPdp(structure, new ObjectMapper(), targetUrl);
+        pdp = new CmdbPdp(structure, new ObjectMapper(), crudTargetUrl);
     }
 
     @Test

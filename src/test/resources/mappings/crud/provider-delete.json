@@ -6,7 +6,7 @@
   "response": {
     "status": 200,
     "jsonBody": {
-    	"_id": "provider-delete",
+      "_id": "provider-delete",
       "_rev": "provider-delete-rev",
       "type": "provider",
       "owners": ["userC", "userD"],

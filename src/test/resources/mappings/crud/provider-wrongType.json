@@ -1,7 +1,7 @@
 {
   "request": {
     "method": "GET",
-    "url": "/wrongType"
+    "url": "/crud/wrongType"
   },
   "response": {
     "status": 200,

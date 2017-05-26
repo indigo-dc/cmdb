@@ -1,7 +1,7 @@
 {
   "request": {
     "method": "GET",
-    "url": "/provider-100IT"
+    "url": "/crud/provider-100IT"
   },
   "response": {
     "status": 200,
