@@ -16,7 +16,9 @@ import org.springframework.stereotype.Component;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import pl.cyfronet.fid.cmdbproxy.pdp.EntityStructure;
 import pl.cyfronet.fid.cmdbproxy.service.Fetcher;
+import pl.cyfronet.fid.cmdbproxy.util.CollectionUtil;
 
 @Component
 @Order(6)
@@ -30,6 +32,9 @@ public class GuardRestrictedElementsFilter extends CmdbCrudAwareFilter {
     @Autowired
     private ObjectMapper mapper;
 
+    @Autowired
+    EntityStructure structure;
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
@@ -40,11 +45,20 @@ public class GuardRestrictedElementsFilter extends CmdbCrudAwareFilter {
         }
     }
 
+    @SuppressWarnings("unchecked")
     private boolean isTryingToOverrideProtectedElements(HttpServletRequest request) {
         String id = (String) request.getAttribute(AuthorizationFilter.CMDB_ID);
         Map<String, Object> item = fetcher.getItem(id);
         Map<String, Object> updatedItem = getUpdatedItem(request);
-        return !eq(item.get(TYPE), updatedItem.get(TYPE));
+        return !eq(item.get(TYPE), updatedItem.get(TYPE)) || isTryingToOverrideRelation((String) item.get(TYPE),
+                CollectionUtil.notNullable((Map<String, Object>) item.get("data")),
+                CollectionUtil.notNullable((Map<String, Object>) updatedItem.get("data")));
+    }
+
+    private boolean isTryingToOverrideRelation(String entityName, Map<String, Object> oryginal,
+            Map<String, Object> updated) {
+        return structure.getEntity(entityName).getRestrictedParameters().stream()
+                .anyMatch(relationField -> !eq(oryginal.get(relationField), updated.get(relationField)));
     }
 
     private boolean eq(Object v1, Object v2) {
@@ -53,7 +67,8 @@ public class GuardRestrictedElementsFilter extends CmdbCrudAwareFilter {
 
     private Map<String, Object> getUpdatedItem(HttpServletRequest request) {
         try {
-            return mapper.readValue(request.getInputStream(), new TypeReference<Map<String, Object>>() {});
+            return mapper.readValue(request.getInputStream(), new TypeReference<Map<String, Object>>() {
+            });
         } catch (IOException e) {
             return new HashMap<>();
         }

@@ -78,4 +78,16 @@ public class CmdbEntityStructureTest {
 
        assertThat(children.size()).isEqualTo(0);
     }
+
+    @Test
+    public void testGetRestrictedParameters() throws Exception {
+       assertThat(entityStructure.getEntity("provider").getRestrictedParameters()).isEmpty();
+       assertThat(entityStructure.getEntity("not-existing").getRestrictedParameters()).isEmpty();
+
+       assertThat(entityStructure.getEntity("service").getRestrictedParameters().size()).isEqualTo(1);
+       assertThat(entityStructure.getEntity("service").getRestrictedParameters()).contains("provider_id");
+
+       assertThat(entityStructure.getEntity("image").getRestrictedParameters().size()).isEqualTo(1);
+       assertThat(entityStructure.getEntity("image").getRestrictedParameters()).contains("service");
+    }
 }

@@ -24,7 +24,7 @@ public class AuthorizationFilterTest extends WireMockTest {
             "{\"type\": \"provider\", \"data\": {\"name\": \"root item\"}}";
 
     private static final String UPDATE_REQUEST_BODY =
-            "{\"_rev\": \"rev\", \"type\": \"image\", \"owners\": [\"user\"], \"data\": {\"service\": \"4401ac5dc8cfbbb737b0a025758cf045\"}}";
+            "{\"_rev\": \"rev\", \"type\": \"image\", \"owners\": [\"user\"], \"data\": {\"service\": \"service_id\"}}";
 
     @Autowired
     private Pdp pdp;
@@ -135,10 +135,10 @@ public class AuthorizationFilterTest extends WireMockTest {
     @Test
     public void itemOwnerCanModifyIt() throws Exception {
         stubOKUserInfo("valid", "user");
-        stubPutOk("/crud/existing-item", "ok");
-        when(pdp.canManage("user", "existing-item")).thenReturn(true);
+        stubPutOk("/crud/leaf", "ok");
+        when(pdp.canManage("user", "leaf")).thenReturn(true);
 
-        ResponseEntity<String> response = put("/cmdb-crud/existing-item", "valid", UPDATE_REQUEST_BODY);
+        ResponseEntity<String> response = put("/cmdb-crud/leaf", "valid", UPDATE_REQUEST_BODY);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(response.getBody()).isEqualTo("ok");
