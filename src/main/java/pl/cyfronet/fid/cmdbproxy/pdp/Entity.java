@@ -1,5 +1,6 @@
 package pl.cyfronet.fid.cmdbproxy.pdp;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -22,5 +23,9 @@ public class Entity {
 
     public Map<String, Entity> getChildren() {
         return children;
+    }
+
+    public Collection<String> getRestrictedParameters() {
+        return getParents().keySet();
     }
 }

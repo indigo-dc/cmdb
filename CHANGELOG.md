@@ -23,6 +23,7 @@ Please view this file on the master branch, on stable branches it's out of date.
 - Administrator can do everything (admin is an user belonging to defined group) (@mkasztelnik)
 - Only admin can create root item (@mkasztelnik)
 - Existing item type cannot be changed (@mkasztelnik)
+- Existing item parent cannot be changed (@mkasztelnik)
 
 ### Changed
 
