@@ -1,0 +1,63 @@
+{
+  "request": {
+    "method": "POST",
+    "url": "/crud/_all_docs",
+    "bodyPatterns" : [ {
+      "equalToJson" : "{\"keys\":[\"service-delete2\",\"image-delete1\",\"service-delete1\",\"image-delete2\",\"provider-delete\",\"service-delete3\"]}"
+    } ]
+  },
+  "response": {
+    "status": 200,
+    "jsonBody": {
+      "total_rows": 773,
+      "offset": 0,
+      "rows": [
+        {
+          "id": "provider-delete",
+          "key": "provider-delete",
+          "value": {
+            "rev": "provider-delete-rev"
+          }
+        },
+        {
+          "id": "service-delete1",
+          "key": "service-delete1",
+          "value": {
+            "rev": "service-delete1-rev"
+          }
+        },
+        {
+          "id": "service-delete2",
+          "key": "service-delete2",
+          "value": {
+            "rev": "service-delete2-rev"
+          }
+        },
+        {
+          "id": "service-delete3",
+          "key": "service-delete3",
+          "value": {
+            "rev": "service-delete3-rev"
+          }
+        },
+        {
+          "id": "image-delete1",
+          "key": "image-delete1",
+          "value": {
+            "rev": "image-delete1-rev"
+          }
+        },
+        {
+          "id": "image-delete2",
+          "key": "image-delete2",
+          "value": {
+            "rev": "image-delete2-rev"
+          }
+        }
+      ]
+    },
+    "headers": {
+      "Content-Type": "application/json"
+    }
+  }
+}

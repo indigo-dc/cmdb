@@ -1,0 +1,30 @@
+{
+  "request": {
+    "method": "GET",
+    "url": "/service/id/service-delete3/has_many/images"
+  },
+  "response": {
+    "status": 200,
+    "jsonBody": {
+      "total_rows": 77,
+      "offset": 68,
+      "rows": [
+        {
+          "id": "image-delete2",
+          "key": [
+            "service-delete3",
+            "images"
+          ],
+          "value": {
+            "image_id": "303d8324-69a7-4372-be24-1d68703affd7",
+            "image_name": "indigodatacloud/ubuntu-sshd:14.04-devel",
+            "service": "service-delete3"
+          }
+        }
+      ]
+    },
+    "headers": {
+      "Content-Type": "application/json"
+    }
+  }
+}
