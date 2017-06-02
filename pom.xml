@@ -4,12 +4,12 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>pl.cyfronet.fid</groupId>
-  <artifactId>cmdb-proxy</artifactId>
+  <artifactId>cmdb</artifactId>
   <version>0.1.0-SNAPSHOT</version>
   <packaging>jar</packaging>
 
-  <name>cmdb-proxy</name>
-  <description>CMDB proxy adding authorization and authentication for CMDB REST API</description>
+  <name>cmdb</name>
+  <description>Change management database</description>
 
   <developers>
     <developer>
@@ -90,7 +90,7 @@
   </dependencies>
 
   <build>
-    <finalName>cmdb-proxy</finalName>
+    <finalName>cmdb</finalName>
     <plugins>
       <plugin>
         <groupId>org.springframework.boot</groupId>
