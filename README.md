@@ -50,7 +50,7 @@ Application can be also packed and started as docker container. To build docker 
 As a result `pl.cyfronet.fid/cmdb` will be build. Next, it can be started using following command:
 
 ```
-docker run -e CMDB_CRUD_USERNAME=XXX -e CMDB_CRUD_PASSWORD=XXX -p 8080:8080 pl.cyfronet.fid/cmdb
+docker run -e CMDB_CRUD_USERNAME=XXX -e CMDB_CRUD_PASSWORD=XXX -p 8080:8080 indigodatacloud/cmdb
 
 ```
 
