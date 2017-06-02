@@ -1,4 +1,4 @@
-# CMDB [![Build Status](https://travis-ci.org/mkasztelnik/cmdb-proxy.svg?branch=master)](https://travis-ci.org/mkasztelnik/cmdb-proxy)
+# CMDB [![Build Status](https://travis-ci.org/indigo-dc/cmdb.svg?branch=master)](https://travis-ci.org/indigo-dc/cmdb)
 
 Change management database (CMDB) is an REST API for managing information about business entities. 
 It is integrated with indigo iam, thus all requests need to pass Bearer JWT tokent in the authorization 
