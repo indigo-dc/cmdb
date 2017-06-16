@@ -1,5 +1,23 @@
 language: java
 sudo: false
-
 jdk:
-  - oraclejdk8
+- oraclejdk8
+services:
+  - docker
+
+after_success:
+# don't create docker on pull request
+- export REPO='indigodatacloud/cmdb'
+- docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
+- if [ "$TRAVIS_PULL_REQUEST" = "true" ]; exit 0; fi
+- export DOCKER_BUILD_BRANCH=${DOCKER_BUILD_BRANCH:-master}
+- if [ "$TRAVIS_BRANCH" = "$DOCKER_BUILD_BRANCH" -a "$TRAVIS_PULL_REQUEST" = "false" ]; then
+  docker build -t $REPO:latest . ; docker push "$REPO:latest" ; exit 0 ; fi
+# this is tagged branch, unfortunately we have no way to determine if this is master
+- if [ -n "$TRAVIS_TAG" ]; then
+  docker build -t "$REPO:$TRAVIS_TAG" . ; docker push "$REPO:$TRAVIS_TAG" ; exit 0 ; fi
+
+env:
+  global:
+  - secure: jGzvLXzQKpiVk5XvWYEUV7xQ3HLJxWYEWxbsWXB0nqf+x5RKRKE/0M2+uWn2EQ6BGc7E+FJ7Fj73knxG5idapwG6TN4OJMDvPzF8OMsle1S29KQvpDNUSuldSMP7TPJMEojut2ZSkkLSQqRcZmMyNaX38RXv0bEC4iQKWUWuBwnGysHnLttvt+s9o21yCQoNOyXmncArqojUWZIpa/LkHr3HwD9+h0+2o6eOTMGRYqh7Q8OGjS9ksPU/B80T92+/5C5rmTMSfFBSLyC25ZJV/zidvXhUMqGlT7iouRAj+1TvVHh1mArMBs2IAjLgW3J2fYcsaeEcETQxf1WBx7bwUFJ83LHALFDi2Ze09OgYa2WMGi4aE70zW3G3rPI7JCeLrCLvaysnbfqrlvpp/F6qduij8RCIBug41hO1hSbWu+n2XQq7o7dTt+TwBtlEwe5xdUVLEKp6J259f/KyiUkyuVvH0DT5RPDbRAatAyIuLhboRV9eFsnCR3d8PNKHCGd3J1DoejETN1y/fstqTMGSPsoEoCDyqy855Q+swAHc8PgMc5ZhPmazBQdDRDXPT1lfmcA2+F0U0k3WAce9054PzWPHDtPDM5WHCKJp5u3usZ/q2dkRoBP/dEFdZU8GnmE+y/teIOOAS4qbr2kbORVU5E+kjJRrSXtPDePaXgFyaO0=
+  - secure: J0vGQuAjA/cEYBVFC9tIwUxzrcEFs7CUs6zHMmo6BjDjJd1xNc1SXenbUvxV4skCr5JbkfxknDByj8jDlyGWHimv4FQNuecfrMuJN6tARHzVpt103dgZruk67yK0uTJrUO092BVbFfTNHtICRuGKE0hg5sLh4OVF5njC27IWbu88ZIeUdoyWIzmeL6GAaP29fXg30ZYpy/qo19cDSuqzw1gsORKikIpfdVW54MQSsqlRDqYZqsB6MTZuYTFzANGkHHQJYYnV7DrKIgWePBJntA0klRaER9SxmLyKRFD0zuTK8t9G0maQWbi88dKU5alYAt9+Muh953lN/XhOt39n9KHDEtUuU41gJp6VpXGeSzMhrUm9G0Rl+lbCNN3m4ayPBa090xD2mmdxS5XPqn6wmXkH3WNIg6BGljd+s6ExynbWoDYMkOr5sooip/yNNzP+H1qORunVS/v/Wssr39M0QtklbPTCHVUVhwf15PnQ9xAbkfwt92IEPjqkhBQ2T9KmikBlx0AzOCq9p2teG759lSkzM3uJk0f6cwldfPIDjJGhPC2Nv8qQTH1w6lLXrVmxQX/SFzfnV4wMrBgDHj6GfpvytL5vZR2Zcs1MsTCEde1HhchHnRkPiDflwmRf1giSM7+9sUTYPW44NyygB2TOqGQivuK/gfLQPPcTLD8Y3io=
