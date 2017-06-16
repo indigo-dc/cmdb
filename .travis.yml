@@ -11,11 +11,14 @@ after_success:
 - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
 - if [ "$TRAVIS_PULL_REQUEST" = "true" ]; exit 0; fi
 - export DOCKER_BUILD_BRANCH=${DOCKER_BUILD_BRANCH:-master}
+- cp src/main/docker/Dockerfile target
+- cd target
 - if [ "$TRAVIS_BRANCH" = "$DOCKER_BUILD_BRANCH" -a "$TRAVIS_PULL_REQUEST" = "false" ]; then
   docker build -t $REPO:latest . ; docker push "$REPO:latest" ; exit 0 ; fi
 # this is tagged branch, unfortunately we have no way to determine if this is master
 - if [ -n "$TRAVIS_TAG" ]; then
   docker build -t "$REPO:$TRAVIS_TAG" . ; docker push "$REPO:$TRAVIS_TAG" ; exit 0 ; fi
+- cd ..
 
 env:
   global:
