@@ -1,7 +1,7 @@
 # CMDB [![Build Status](https://travis-ci.org/indigo-dc/cmdb.svg?branch=master)](https://travis-ci.org/indigo-dc/cmdb)
 
-Change management database (CMDB) is an REST API for managing information about business entities. 
-It is integrated with indigo iam, thus all requests need to pass Bearer JWT tokent in the authorization 
+Change management database (CMDB) is an REST API for managing information about business entities.
+It is integrated with indigo iam, thus all requests need to pass Bearer JWT tokent in the authorization
 header.
 
 ## Requirements
@@ -47,7 +47,7 @@ Application can be also packed and started as docker container. To build docker 
 ./mvnw package docker:build
 ```
 
-As a result `pl.cyfronet.fid/cmdb` will be build. Next, it can be started using following command:
+As a result `indigodatacloud/cmdb` will be build. Next, it can be started using following command:
 
 ```
 docker run -e CMDB_CRUD_USERNAME=XXX -e CMDB_CRUD_PASSWORD=XXX -p 8080:8080 indigodatacloud/cmdb
