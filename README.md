@@ -2,9 +2,10 @@
 
 Documentation of CMDB service 
 
-[Deployment](./deployment.md)
+## [Deployment](./deployment.md)
 
-[Data migration](./data-migration.md)
+## [Data migration](./data-migration.md)
+
 =======
 # CMDB [![Build Status](https://travis-ci.org/indigo-dc/cmdb.svg?branch=master)](https://travis-ci.org/indigo-dc/cmdb)
 
