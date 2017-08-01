@@ -1,5 +1,4 @@
 {
-<<<<<<< HEAD
     "plugins": [ "theme-api" ],
     "pluginsConfig": {
         "theme-api": {
@@ -16,7 +15,4 @@
             ]
         }
     }
-=======
-  "root": "./gitbook"
->>>>>>> adding_gitbook
 }

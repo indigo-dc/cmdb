@@ -1,0 +1,30 @@
+{
+  "request": {
+    "method": "GET",
+    "url": "/provider/schema"
+  },
+  "response": {
+    "status": 200,
+    "jsonBody": {
+      "type": "object",
+      "additionalProperties": true,
+      "list": {
+        "filters": {
+          "name": "name"
+        },
+        "value": {
+          "name": "name"
+        }
+      },
+      "has_many": [
+        {
+          "name": "services",
+          "type": "service"
+        }
+      ]
+    },
+    "headers": {
+      "Content-Type": "application/json"
+    }
+  }
+}

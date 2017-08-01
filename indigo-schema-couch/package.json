@@ -1,0 +1,29 @@
+{
+  "name": "indigo_cmdb",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+  },
+  "bin": {
+  },
+  "author": "Bartosz Wilk",
+  "license": "",
+  "dependencies": {
+    "schema-couch-roles": "0.0.5"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bwilk/indigo-cmdb"
+  },
+  "maintainers": [
+    {
+      "name": "Bartosz Wilk",
+      "web": "https://github.com/bwilk"
+    }
+  ],
+  "devDependencies": {
+  }
+}
+
+

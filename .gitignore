@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Node rules:
 ## Grunt intermediate storage (http://gruntjs.com/creating-plugins#storing-task-files)
 .grunt
@@ -14,3 +15,38 @@ _book
 *.epub
 *.mobi
 *.pdf
+=======
+target/
+!.mvn/wrapper/maven-wrapper.jar
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### NetBeans ###
+nbproject/private/
+build/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
+
+### configuration overrides
+src/main/resources/config
+
+### schema-couch
+indigo-schema-couch/node_modules
+indigo-schema-couch/npm-debug.log
+indigo-schema-couch/config.js
+
+>>>>>>> adding_gitbook

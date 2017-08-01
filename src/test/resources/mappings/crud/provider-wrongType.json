@@ -1,0 +1,28 @@
+{
+  "request": {
+    "method": "GET",
+    "url": "/crud/wrongType"
+  },
+  "response": {
+    "status": 200,
+    "jsonBody": {
+    	"_id": "wrongType",
+      "_rev": "1-cc1726a91bc298e912d20ac2f15ec58e",
+      "type": "service",
+      "owners": ["userA"],
+      "data": {
+        "id": "419",
+        "primary_key": "80090G0",
+        "name": "100IT",
+        "country": "United Kingdom",
+        "country_code": "GB",
+        "roc": "NGI_UK",
+        "subgrid": "",
+        "giis_url": "ldap://xxx.yyy.zz"
+      }
+    },
+    "headers": {
+      "Content-Type": "application/json"
+    }
+  }
+}

@@ -1,0 +1,17 @@
+spring:
+  profiles:
+    active: production
+
+proxy:
+  cmdb:
+    servlet_url: /cmdb/*
+    target_url: http://indigo.cloud.plgrid.pl/cmdb
+  cmdb-crud:
+    servlet_url: /cmdb-crud/*
+    target_url: http://couch.cloud.plgrid.pl/indigo-cmdb-v2
+    # username: XXX
+    # password: XXX
+    admin_group: cmdb-dev-admins
+
+oidc:
+  userinfo: https://iam-test.indigo-datacloud.eu/userinfo

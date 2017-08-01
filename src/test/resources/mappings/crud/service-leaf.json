@@ -1,0 +1,27 @@
+{
+  "request": {
+    "method": "GET",
+    "url": "/crud/leaf"
+  },
+  "response": {
+    "status": 200,
+    "jsonBody": {
+      "_id": "leaf",
+      "_rev": "rev",
+      "type": "image",
+	  "owners": ["userA"],
+      "data": {
+        "image_id": "xxx",
+        "image_name": "image-create-test",
+        "architecture": "x86_64",
+        "type": "linux",
+        "distribution": "ubuntu",
+        "version": "14.04",
+        "service": "service_id"
+      }
+    },
+    "headers": {
+      "Content-Type": "application/json"
+    }
+  }
+}
