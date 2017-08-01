@@ -1,10 +1,9 @@
-<<<<<<< HEAD
 # CMDB documentation
 
 Documentation of CMDB service 
 
-####[Deployment](./deployment.md)
-####[Data migration](./data-migration.md)
+[Deployment](./deployment.md)
+[Data migration](./data-migration.md)
 =======
 # CMDB [![Build Status](https://travis-ci.org/indigo-dc/cmdb.svg?branch=master)](https://travis-ci.org/indigo-dc/cmdb)
 
@@ -73,4 +72,3 @@ CMDB_CRUD_PASSWORD=FIXME
 CMDB_CRUD_ADMIN_GROUP=cmdb-dev-admins
 OIDC_USERINFO=https://iam-test.indigo-datacloud.eu/userinfo
 ```
->>>>>>> adding_gitbook
