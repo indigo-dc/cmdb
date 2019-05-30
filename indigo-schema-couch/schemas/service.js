@@ -17,7 +17,8 @@ module.exports = {
    },
    has_many: [
       { name: 'images',  type: 'image' },
-      { name: 'flavors',  type: 'flavor' }
+      { name: 'flavors',  type: 'flavor' },
+      { name: 'tenants',  type: 'tenant' }
    ],
    belongs_to: [{
       type: 'provider',
