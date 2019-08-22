@@ -4,7 +4,7 @@ module.exports = {
    list: {
       filters: {
          flavor_name: ["flavor_name"],
-         service: ["service"]
+         tenant: ["tenant"]
       }, 
       value: {
          flavor_id: "flavor_id",
@@ -12,13 +12,13 @@ module.exports = {
       }
    },
    belongs_to: [{
-      type: 'service',
+      type: 'tenant',
       many_name: 'flavors',
-      foreign_key: 'service',
+      foreign_key: 'tenant_id',
       value: {
          flavor_id: "flavor_id", 
          flavor_name: "flavor_name",
-         service: "service"
+         tenant: "tenant"
       }
    }],
    properties: {
@@ -58,9 +58,17 @@ module.exports = {
          type: "string",
          required: true
       },
-      service: {
+      tenant_id: {
          type: "string",
          required: true
+      },
+      tenant_name: {
+         type: "string",
+         required: false
+      },
+      service: {
+         type: "string",
+         required: false
       }
    }
 }

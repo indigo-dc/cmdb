@@ -11,6 +11,10 @@ module.exports = {
          tenant_name: "tenant_name"
       }
    },
+   has_many: [
+      { name: 'images',  type: 'image' }
+      { name: 'flavors',  type: 'flavor' }
+   ],
    belongs_to: [{
       type: 'service',
       many_name: 'tenants',
