@@ -4,11 +4,13 @@ module.exports = {
    list: {
       filters: {
          image_name: ["image_name"],
-         tenant_id: ["tenant_id"]
+         tenant_id: ["tenant_id"],
+         iam_organisation: ["iam_organisation"]
       }, 
       value: {
          image_id: "image_id",
-         image_name: "image_name"
+         image_name: "image_name",
+         iam_organisation: "iam_organisation"
       }
    },
    belongs_to: [{
@@ -18,7 +20,8 @@ module.exports = {
       value: {
          image_id: "image_id", 
          image_name: "image_name",
-         tenant_id: "tenant_id"
+         tenant_id: "tenant_id",
+         iam_organisation: "iam_organisation"
       }
    }],
    properties: {
@@ -51,6 +54,10 @@ module.exports = {
          required: true
       },
       tenant_name: {
+         type: "string",
+         required: false
+      },
+      iam_organisation: {
          type: "string",
          required: false
       },
