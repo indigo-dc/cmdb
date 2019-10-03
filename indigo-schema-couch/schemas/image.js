@@ -4,7 +4,7 @@ module.exports = {
    list: {
       filters: {
          image_name: ["image_name"],
-         tenant: ["tenant"]
+         tenant_id: ["tenant_id"]
       }, 
       value: {
          image_id: "image_id",
@@ -18,7 +18,7 @@ module.exports = {
       value: {
          image_id: "image_id", 
          image_name: "image_name",
-         tenant: "tenant"
+         tenant_id: "tenant_id"
       }
    }],
    properties: {
