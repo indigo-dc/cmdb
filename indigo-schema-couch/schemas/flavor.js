@@ -4,7 +4,7 @@ module.exports = {
    list: {
       filters: {
          flavor_name: ["flavor_name"],
-         tenant: ["tenant"],
+         tenant_id: ["tenant_id"],
          iam_organisation: ["iam_organisation"]
       }, 
       value: {
@@ -20,7 +20,7 @@ module.exports = {
       value: {
          flavor_id: "flavor_id", 
          flavor_name: "flavor_name",
-         tenant: "tenant",
+         tenant_id: "tenant_id",
          iam_organisation: "iam_organisation"
       }
    }],
@@ -56,10 +56,6 @@ module.exports = {
       gpu_vendor: { 
          type: ["string", "null"],
          required: false
-      },
-      tenant_id: { 
-         type: "string",
-         required: true
       },
       tenant_id: {
          type: "string",

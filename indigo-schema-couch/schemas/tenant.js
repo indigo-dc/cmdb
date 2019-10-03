@@ -12,7 +12,7 @@ module.exports = {
       }
    },
    has_many: [
-      { name: 'images',  type: 'image' }
+      { name: 'images',  type: 'image' },
       { name: 'flavors',  type: 'flavor' }
    ],
    belongs_to: [{
