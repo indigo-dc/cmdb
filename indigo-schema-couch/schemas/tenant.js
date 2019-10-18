@@ -4,11 +4,13 @@ module.exports = {
    list: {
       filters: {
          tenant_name: ["tenant_name"],
-         service: ["service"]
+         service: ["service"],
+         iam_organisation: ["iam_organisation"]
       }, 
       value: {
          tenant_id: "tenant_id",
-         tenant_name: "tenant_name"
+         tenant_name: "tenant_name",
+         iam_organisation: "iam_organisation"
       }
    },
    has_many: [
@@ -22,7 +24,8 @@ module.exports = {
       value: {
          tenant_id: "tenant_id", 
          tenant_name: "tenant_name",
-         service: "service"
+         service: "service",
+         iam_organisation: "iam_organisation"
       }
    }],
    properties: {
@@ -37,6 +40,10 @@ module.exports = {
       service: {
          type: "string",
          required: true
+      },
+      iam_organisation: {
+         type: "string",
+         required: false
       }
    }
 }
