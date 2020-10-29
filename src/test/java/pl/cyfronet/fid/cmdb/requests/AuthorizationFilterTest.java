@@ -35,7 +35,7 @@ public class AuthorizationFilterTest extends WireMockTest {
         stubGetOk("/get", "ok");
         stubGetOk("/crud/get", "ok");
 
-        assertThat(get("/cmdb/get", "valid").getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(get("/cmdb/_design/schema/_rewrite/get", "valid").getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(get("/cmdb-crud/get", "valid").getStatusCode()).isEqualTo(HttpStatus.OK);
     }
 

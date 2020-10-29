@@ -1,20 +1,16 @@
 package pl.cyfronet.fid.cmdb.pdp;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-import java.nio.charset.Charset;
-
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.io.IOUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Value;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import pl.cyfronet.fid.cmdb.WireMockTest;
-import pl.cyfronet.fid.cmdb.pdp.CmdbEntityStructure;
-import pl.cyfronet.fid.cmdb.pdp.CmdbPdp;
-import pl.cyfronet.fid.cmdb.pdp.EntityStructure;
+
+import java.nio.charset.Charset;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
 
 public class CmdbPdpTest extends WireMockTest {
 
@@ -28,8 +24,8 @@ public class CmdbPdpTest extends WireMockTest {
 
     @Before
     public void setUp() {
-        EntityStructure structure = new CmdbEntityStructure(targetUrl);
-        pdp = new CmdbPdp(structure, new ObjectMapper(), crudTargetUrl);
+        EntityStructure structure = new CmdbEntityStructure(targetUrl, testRestTemplate.getRestTemplate());
+        pdp = new CmdbPdp(structure, new ObjectMapper(), crudTargetUrl, testRestTemplate.getRestTemplate());
     }
 
     @Test

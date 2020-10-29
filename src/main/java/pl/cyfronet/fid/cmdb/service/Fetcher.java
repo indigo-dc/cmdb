@@ -28,7 +28,8 @@ public class Fetcher {
     @Value("${proxy.cmdb.target_url}")
     private String schemaUrl;
 
-    private RestTemplate restTemplate = new RestTemplate();
+    @Autowired
+    private RestTemplate restTemplate;
 
     @Autowired
     EntityStructure entityStructure;

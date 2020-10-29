@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
+import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -20,6 +21,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class CmdbEntityStructure implements EntityStructure {
 
     private String targetUrl;
+
+    RestTemplate restTemplate;
 
     private Map<String, Entity> entities;
 
@@ -51,14 +54,15 @@ public class CmdbEntityStructure implements EntityStructure {
     }
 
     @Autowired
-    public CmdbEntityStructure(@Value("${proxy.cmdb.target_url}") String targetUrl) {
+    public CmdbEntityStructure(@Value("${proxy.cmdb.target_url}") String targetUrl, RestTemplate restTemplate) {
         this.targetUrl = targetUrl;
+        this.restTemplate = restTemplate;
         discoverDependencies();
     }
 
     private void discoverDependencies() {
         @SuppressWarnings("unchecked")
-        List<String> entitiesNames = new RestTemplate().getForObject(targetUrl, List.class);
+        List<String> entitiesNames = restTemplate.getForObject(targetUrl, List.class);
 
         entities = entitiesNames.stream()
                 .map(en -> new Entity(en)).collect(Collectors.toMap(e -> e.type, e -> e));
@@ -72,7 +76,7 @@ public class CmdbEntityStructure implements EntityStructure {
     }
 
     private CmdbEntity getCmdbEntity(String entityName) {
-        return new RestTemplate().getForObject(targetUrl + "/" + entityName + "/schema", CmdbEntity.class);
+        return restTemplate.getForObject(targetUrl + "/" + entityName + "/schema", CmdbEntity.class);
     }
 
     private <T> List<T> notNullable(List<T> list) {

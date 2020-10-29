@@ -9,15 +9,14 @@ import java.util.Map;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.cloud.contract.wiremock.AutoConfigureWireMock;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import pl.cyfronet.fid.cmdb.pdp.CmdbEntityStructure;
-import pl.cyfronet.fid.cmdb.pdp.Entity;
-import pl.cyfronet.fid.cmdb.pdp.EntityStructure;
+import org.springframework.web.client.RestTemplate;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
@@ -28,9 +27,12 @@ public class CmdbEntityStructureTest {
     private String targetUrl;
     private EntityStructure entityStructure;
 
+    @Autowired
+    private RestTemplate restTemplate;
+
     @Before
     public void setUp() {
-        entityStructure = new CmdbEntityStructure(targetUrl);
+        entityStructure = new CmdbEntityStructure(targetUrl, restTemplate);
     }
 
     @Test
@@ -66,32 +68,32 @@ public class CmdbEntityStructureTest {
 
     @Test
     public void testRootChildren() throws Exception {
-       Map<String, Entity> children = entityStructure.getEntity("provider").getChildren();
+        Map<String, Entity> children = entityStructure.getEntity("provider").getChildren();
 
-       assertThat(children.size()).isEqualTo(1);
-       assertThat(children.get("services").getType()).isEqualTo("service");
+        assertThat(children.size()).isEqualTo(1);
+        assertThat(children.get("services").getType()).isEqualTo("service");
 
 
-       assertThat(children.get("services").getChildren().size()).isEqualTo(1);
-       assertThat(children.get("services").getChildren().get("images").getType()).isEqualTo("image");
+        assertThat(children.get("services").getChildren().size()).isEqualTo(1);
+        assertThat(children.get("services").getChildren().get("images").getType()).isEqualTo("image");
     }
 
     @Test
     public void testLeafChildren() throws Exception {
-       Map<String, Entity> children = entityStructure.getEntity("image").getChildren();
+        Map<String, Entity> children = entityStructure.getEntity("image").getChildren();
 
-       assertThat(children.size()).isEqualTo(0);
+        assertThat(children.size()).isEqualTo(0);
     }
 
     @Test
     public void testGetRestrictedParameters() throws Exception {
-       assertThat(entityStructure.getEntity("provider").getRestrictedParameters()).isEmpty();
-       assertThat(entityStructure.getEntity("not-existing").getRestrictedParameters()).isEmpty();
+        assertThat(entityStructure.getEntity("provider").getRestrictedParameters()).isEmpty();
+        assertThat(entityStructure.getEntity("not-existing").getRestrictedParameters()).isEmpty();
 
-       assertThat(entityStructure.getEntity("service").getRestrictedParameters().size()).isEqualTo(1);
-       assertThat(entityStructure.getEntity("service").getRestrictedParameters()).contains("provider_id");
+        assertThat(entityStructure.getEntity("service").getRestrictedParameters().size()).isEqualTo(1);
+        assertThat(entityStructure.getEntity("service").getRestrictedParameters()).contains("provider_id");
 
-       assertThat(entityStructure.getEntity("image").getRestrictedParameters().size()).isEqualTo(1);
-       assertThat(entityStructure.getEntity("image").getRestrictedParameters()).contains("service");
+        assertThat(entityStructure.getEntity("image").getRestrictedParameters().size()).isEqualTo(1);
+        assertThat(entityStructure.getEntity("image").getRestrictedParameters()).contains("service");
     }
 }

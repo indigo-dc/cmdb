@@ -4,7 +4,7 @@ spring:
     
 proxy:
   cmdb:
-    servlet_url: /cmdb/*
+    servlet_url: /cmdb/_design/schema/_rewrite/*
     target_url: http://localhost:${wiremock.server.port}
   cmdb-crud:
     servlet_url: /cmdb-crud/*

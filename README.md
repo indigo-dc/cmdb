@@ -19,7 +19,7 @@ header.
 
 ## Requirements
 
-  - JVM >= 1.8
+  - JVM >= 11
 
 ## Setting up a development instance
 
@@ -28,7 +28,7 @@ header.
 ```
 sudo add-apt-repository ppa:webupd8team/java
 sudo apt update
-sudo apt install oracle-java8-installer
+sudo apt install oracle-java9-installer
 ```
 
 * Navigate to the project's directory
