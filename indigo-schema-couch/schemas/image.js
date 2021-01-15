@@ -5,12 +5,12 @@ module.exports = {
       filters: {
          image_name: ["image_name"],
          tenant_id: ["tenant_id"],
-         iam_organisation: ["iam_organisation"]
+         user_group: ["user_group"]
       }, 
       value: {
          image_id: "image_id",
          image_name: "image_name",
-         iam_organisation: "iam_organisation"
+         user_group: "user_group"
       }
    },
    belongs_to: [{
@@ -21,7 +21,7 @@ module.exports = {
          image_id: "image_id", 
          image_name: "image_name",
          tenant_id: "tenant_id",
-         iam_organisation: "iam_organisation"
+         user_group: "user_group"
       }
    }],
    properties: {
@@ -57,7 +57,7 @@ module.exports = {
          type: "string",
          required: false
       },
-      iam_organisation: {
+      user_group: {
          type: "string",
          required: false
       },

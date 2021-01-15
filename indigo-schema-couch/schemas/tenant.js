@@ -1,16 +1,16 @@
 module.exports = {
    type: "object",
-   additionalProperties: true, 
+   additionalProperties: true,
    list: {
       filters: {
          tenant_name: ["tenant_name"],
          service: ["service"],
-         iam_organisation: ["iam_organisation"]
-      }, 
+         user_group: ["user_group"]
+      },
       value: {
          tenant_id: "tenant_id",
          tenant_name: "tenant_name",
-         iam_organisation: "iam_organisation"
+         user_group: "user_group"
       }
    },
    has_many: [
@@ -22,18 +22,18 @@ module.exports = {
       many_name: 'tenants',
       foreign_key: 'service',
       value: {
-         tenant_id: "tenant_id", 
+         tenant_id: "tenant_id",
          tenant_name: "tenant_name",
          service: "service",
-         iam_organisation: "iam_organisation"
+         user_group: "user_group"
       }
    }],
    properties: {
-      tenant_id: { 
+      tenant_id: {
          type: "string",
          required: true
       },
-      tenant_name: { 
+      tenant_name: {
          type: "string",
          required: true
       },
@@ -41,7 +41,7 @@ module.exports = {
          type: "string",
          required: true
       },
-      iam_organisation: {
+      user_group: {
          type: "string",
          required: false
       }

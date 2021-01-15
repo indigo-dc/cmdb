@@ -5,12 +5,12 @@ module.exports = {
       filters: {
          flavor_name: ["flavor_name"],
          tenant_id: ["tenant_id"],
-         iam_organisation: ["iam_organisation"]
+         user_group: ["user_group"]
       }, 
       value: {
          flavor_id: "flavor_id",
          flavor_name: "flavor_name",
-         iam_organisation: "iam_organisation"
+         user_group: "user_group"
       }
    },
    belongs_to: [{
@@ -21,7 +21,7 @@ module.exports = {
          flavor_id: "flavor_id", 
          flavor_name: "flavor_name",
          tenant_id: "tenant_id",
-         iam_organisation: "iam_organisation"
+         user_group: "user_group"
       }
    }],
    properties: {
@@ -65,7 +65,7 @@ module.exports = {
          type: "string",
          required: false
       },
-      iam_organisation: {
+      user_group: {
          type: "string",
          required: false
       },
