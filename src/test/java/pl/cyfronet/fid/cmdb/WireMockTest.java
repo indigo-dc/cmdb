@@ -27,7 +27,7 @@ import com.github.tomakehurst.wiremock.matching.EqualToPattern;
 public abstract class WireMockTest {
 
     @Autowired
-    private TestRestTemplate restTemplate;
+    public TestRestTemplate testRestTemplate;
 
     @Value("${proxy.cmdb-crud.admin_group}")
     private String adminGroupName;
@@ -66,7 +66,7 @@ public abstract class WireMockTest {
         headers.set("Authorization", "Bearer " + token);
         HttpEntity<String> entity = new HttpEntity<>(headers);
 
-        return restTemplate.exchange(path, HttpMethod.GET, entity, String.class);
+        return testRestTemplate.exchange(path, HttpMethod.GET, entity, String.class);
     }
 
     protected ResponseEntity<String> post(String path, String token, String body) {
@@ -75,7 +75,7 @@ public abstract class WireMockTest {
         headers.set("Content-Type", "application/json");
         HttpEntity<String> entity = new HttpEntity<>(body, headers);
 
-        return restTemplate.exchange(path, HttpMethod.POST, entity, String.class);
+        return testRestTemplate.exchange(path, HttpMethod.POST, entity, String.class);
     }
 
     protected ResponseEntity<String> put(String path, String token, String body) {
@@ -84,7 +84,7 @@ public abstract class WireMockTest {
         headers.set("Content-Type", "application/json");
         HttpEntity<String> entity = new HttpEntity<>(body, headers);
 
-        return restTemplate.exchange(path, HttpMethod.PUT, entity, String.class);
+        return testRestTemplate.exchange(path, HttpMethod.PUT, entity, String.class);
     }
 
     protected ResponseEntity<String> delete(String path, String token) {
@@ -92,36 +92,36 @@ public abstract class WireMockTest {
         headers.set("Authorization", "Bearer " + token);
         HttpEntity<String> entity = new HttpEntity<>(headers);
 
-        return restTemplate.exchange(path, HttpMethod.DELETE, entity, String.class);
+        return testRestTemplate.exchange(path, HttpMethod.DELETE, entity, String.class);
     }
 
     protected void stubGetOk(String path, String responseBody) {
         stubFor(WireMock.get(urlEqualTo(path))
                 .willReturn(aResponse()
-                    .withBody(responseBody)
-                    .withStatus(HttpStatus.OK.value())));
+                        .withBody(responseBody)
+                        .withStatus(HttpStatus.OK.value())));
     }
 
     protected void stubAuthGetOk(String path, String responseBody, String username, String password) {
         stubFor(WireMock.get(urlEqualTo(path))
                 .withBasicAuth(username, password)
                 .willReturn(aResponse()
-                    .withBody(responseBody)
-                    .withStatus(HttpStatus.OK.value())));
+                        .withBody(responseBody)
+                        .withStatus(HttpStatus.OK.value())));
     }
 
     protected void stubPostOk(String path, String body) {
         stubFor(WireMock.post(urlEqualTo(path))
                 .willReturn(aResponse()
-                    .withBody(body)
-                    .withStatus(HttpStatus.CREATED.value())));
+                        .withBody(body)
+                        .withStatus(HttpStatus.CREATED.value())));
     }
 
     protected void stubPutOk(String path, String body) {
         stubFor(WireMock.put(urlEqualTo(path))
                 .willReturn(aResponse()
-                    .withBody(body)
-                    .withStatus(HttpStatus.OK.value())));
+                        .withBody(body)
+                        .withStatus(HttpStatus.OK.value())));
     }
 
     protected void stubDeleteOk(String path) {

@@ -6,8 +6,9 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
-
 import pl.cyfronet.fid.cmdb.web.filter.OidcAuthenticationFilter;
+
+import static org.springframework.http.HttpMethod.GET;
 
 @Configuration
 @EnableWebSecurity
@@ -18,7 +19,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests().anyRequest().fullyAuthenticated()
+        http.authorizeRequests().mvcMatchers(GET,"/cmdb/**").permitAll()
+                .mvcMatchers("/cmdb-crud/**").fullyAuthenticated()
             .and().csrf().disable()
             .addFilterBefore(oidcAuthenticationFilter, BasicAuthenticationFilter.class);
     }

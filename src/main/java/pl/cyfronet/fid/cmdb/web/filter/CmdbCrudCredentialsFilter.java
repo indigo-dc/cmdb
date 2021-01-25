@@ -1,22 +1,17 @@
 package pl.cyfronet.fid.cmdb.web.filter;
 
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Enumeration;
-import java.util.HashSet;
-import java.util.Set;
+import org.apache.tomcat.util.codec.binary.Base64;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.annotation.Order;
+import org.springframework.stereotype.Component;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpServletResponse;
-
-import org.apache.tomcat.util.codec.binary.Base64;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.annotation.Order;
-import org.springframework.stereotype.Component;
+import java.io.IOException;
+import java.util.*;
 
 @Component
 @Order(7)
@@ -79,10 +74,11 @@ public class CmdbCrudCredentialsFilter extends CmdbCrudAwareFilter {
                     headerNames.add(name);
                 }
             }
-
-            if (isCmdbCrudRequest((HttpServletRequest)getRequest())) {
-                headerNames.add(AUTHORIZATION_HEADER_NAME);
-            }
+            // add headers to always authorize in couchdb
+            headerNames.add(AUTHORIZATION_HEADER_NAME);
+//            if (isCmdbCrudRequest((HttpServletRequest)getRequest())) {
+//                headerNames.add(AUTHORIZATION_HEADER_NAME);
+//            }
 
             return Collections.enumeration(headerNames);
         }

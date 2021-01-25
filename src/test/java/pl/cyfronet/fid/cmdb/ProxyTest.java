@@ -1,10 +1,10 @@
 package pl.cyfronet.fid.cmdb;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 import org.junit.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class ProxyTest extends WireMockTest {
 
@@ -13,15 +13,15 @@ public class ProxyTest extends WireMockTest {
         stubGetOk("/provider/list", "providers list");
         stubOKUserInfo("valid");
 
-        ResponseEntity<String> response = get("/cmdb/provider/list", "valid");
+        ResponseEntity<String> response = get("/cmdb/_design/schema/_rewrite/provider/list", "valid");
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(response.getBody()).isEqualTo("providers list");
     }
 
-    @Test
     public void testBearerTokenIsNotValidForCMDB() throws Exception {
         stubBadUserInfo("invalid");
+
 
         HttpStatus status = get("/cmdb/provider/list", "invalid").getStatusCode();
         assertThat(status).isEqualTo(HttpStatus.FORBIDDEN);
@@ -38,7 +38,6 @@ public class ProxyTest extends WireMockTest {
         assertThat(response.getBody()).isEqualTo("document payload");
     }
 
-    @Test
     public void testBearerTokenIsNotValidForCMDBCrud() throws Exception {
         stubBadUserInfo("invalid");
 

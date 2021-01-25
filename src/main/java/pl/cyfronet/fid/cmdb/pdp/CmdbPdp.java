@@ -1,22 +1,21 @@
 package pl.cyfronet.fid.cmdb.pdp;
 
-import static pl.cyfronet.fid.cmdb.util.CollectionUtil.notNullable;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.List;
-import java.util.Map;
-
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.List;
+import java.util.Map;
+
+import static pl.cyfronet.fid.cmdb.util.CollectionUtil.notNullable;
 
 @Service
 @Profile({"development", "production"})
@@ -43,12 +42,15 @@ public class CmdbPdp implements Pdp {
 
     private ObjectMapper mapper;
 
+    private RestTemplate restTemplate;
+
     @Autowired
     public CmdbPdp(EntityStructure entityStructure, ObjectMapper mapper,
-            @Value("${proxy.cmdb-crud.target_url}") String targetUrl) {
+            @Value("${proxy.cmdb-crud.target_url}") String targetUrl, RestTemplate restTemplate) {
         this.entityStructure = entityStructure;
         this.targetUrl = targetUrl;
         this.mapper = mapper;
+        this.restTemplate = restTemplate;
     }
 
     @Override
@@ -70,7 +72,7 @@ public class CmdbPdp implements Pdp {
 
     private boolean canManage(String userId, String entityId, String expectedType) {
         try {
-            Item item = new RestTemplate().getForObject(targetUrl + "/" + entityId, Item.class);
+            Item item = restTemplate.getForObject(targetUrl + "/" + entityId, Item.class);
             Entity entity = entityStructure.getEntity(item.type);
 
             if(isWrongType(expectedType, item.type)) {

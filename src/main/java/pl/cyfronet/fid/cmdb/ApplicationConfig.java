@@ -3,14 +3,16 @@ package pl.cyfronet.fid.cmdb;
 import org.mitre.dsmiley.httpproxy.ProxyServlet;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.client.RestTemplate;
 
 @Configuration
 @EnableAutoConfiguration
-@ComponentScan(basePackages = { "pl.cyfronet.fid" })
+@ComponentScan(basePackages = {"pl.cyfronet.fid"})
 public class ApplicationConfig {
 
     @Value("${proxy.cmdb.servlet_url}")
@@ -27,6 +29,12 @@ public class ApplicationConfig {
 
     @Value("${proxy.cmdb.logging_enabled ?: false}")
     private String loggingEnabled;
+
+    @Value("${proxy.cmdb-crud.username}")
+    private String username;
+
+    @Value("${proxy.cmdb-crud.password}")
+    private String password;
 
     @Bean
     public ServletRegistrationBean cmdbProxyBean() {
@@ -46,5 +54,17 @@ public class ApplicationConfig {
         servletRegistrationBean.addInitParameter(ProxyServlet.P_LOG, loggingEnabled);
 
         return servletRegistrationBean;
+    }
+
+    @Bean
+    public RestTemplateBuilder restTemplateBuilder() {
+        return new RestTemplateBuilder();
+    }
+
+    @Bean
+    public RestTemplate restTemplate() {
+        return restTemplateBuilder()
+                .basicAuthentication(username, password)
+                .build();
     }
 }
