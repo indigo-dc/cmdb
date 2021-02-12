@@ -1,12 +1,10 @@
-FROM frolvlad/alpine-oraclejdk8:slim
-
+FROM frolvlad/alpine-java
 ENV CMDB_TARGET_URL=http://indigo.cloud.plgrid.pl/cmdb
 ENV CMDB_CRUD_TARGET_URL=http://couch.cloud.plgrid.pl/indigo-cmdb-v2
 ENV CMDB_CRUD_USERNAME=FIXME
 ENV CMDB_CRUD_PASSWORD=FIXME
 ENV CMDB_CRUD_ADMIN_GROUP=cmdb-dev-admins
 ENV OIDC_USERINFO=https://iam-test.indigo-datacloud.eu/userinfo
-
 VOLUME /tmp
 ADD cmdb.jar app.jar
 RUN sh -c 'touch /app.jar'
