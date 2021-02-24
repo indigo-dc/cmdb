@@ -1,4 +1,4 @@
-FROM frolvlad/alpine-java
+FROM adoptopenjdk/openjdk11:jdk-11.0.10_9-alpine
 ENV CMDB_TARGET_URL=http://indigo.cloud.plgrid.pl/cmdb
 ENV CMDB_CRUD_TARGET_URL=http://couch.cloud.plgrid.pl/indigo-cmdb-v2
 ENV CMDB_CRUD_USERNAME=FIXME
