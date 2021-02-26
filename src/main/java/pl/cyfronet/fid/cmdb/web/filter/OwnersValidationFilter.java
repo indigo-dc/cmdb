@@ -1,25 +1,22 @@
 package pl.cyfronet.fid.cmdb.web.filter;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.annotation.Order;
+import org.springframework.http.HttpMethod;
+import org.springframework.stereotype.Component;
+import pl.cyfronet.fid.cmdb.pdp.EntityStructure;
+import pl.cyfronet.fid.cmdb.web.ResettableStreamHttpServletRequest;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.annotation.Order;
-import org.springframework.http.HttpMethod;
-import org.springframework.stereotype.Component;
-
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import pl.cyfronet.fid.cmdb.pdp.EntityStructure;
-import pl.cyfronet.fid.cmdb.web.ResettableStreamHttpServletRequest;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 @Component
 @Order(4)
@@ -63,7 +60,7 @@ public class OwnersValidationFilter extends CmdbCrudAwareFilter {
         Map<String, Object> item = getItem(request);
 
         if (isRootItem(item)) {
-            if (!item.containsKey(OWNERS_TAG) && item.get(OWNERS_TAG) instanceof List) {
+            if (item.containsKey(OWNERS_TAG) && item.get(OWNERS_TAG) instanceof List) {
                 List<String> owners = (List<String>) item.get(OWNERS_TAG);
                 if (owners != null && owners.size() > 0) {
                     return;
