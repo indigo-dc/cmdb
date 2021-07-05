@@ -3,50 +3,58 @@ module.exports = {
    additionalProperties: true, 
    list: {
       filters: {
-         image_name: ["image_name"],
+         flavor_name: ["flavor_name"],
          tenant_id: ["tenant_id"],
          user_group: ["user_group"]
       }, 
       value: {
-         image_id: "image_id",
-         image_name: "image_name",
+         flavor_id: "flavor_id",
+         flavor_name: "flavor_name",
          user_group: "user_group"
       }
    },
    belongs_to: [{
       type: 'tenant',
-      many_name: 'images',
+      many_name: 'flavors',
       foreign_key: 'tenant_id',
       value: {
-         image_id: "image_id", 
-         image_name: "image_name",
+         flavor_id: "flavor_id", 
+         flavor_name: "flavor_name",
          tenant_id: "tenant_id",
          user_group: "user_group"
       }
    }],
    properties: {
-      image_id: { 
+      flavor_id: { 
          type: "string",
          required: true
       },
-      image_name: { 
+      flavor_name: { 
          type: "string",
          required: true
       },
-      architecture: { 
-         type: "string",
+      ram: { 
+         type: "integer",
          required: false
       },
-      type: { 
-         type: "string",
+      disk: { 
+         type: "integer",
          required: false
       },
-      distribution: { 
-         type: "string",
+      num_vcpus: { 
+         type: "integer",
          required: false
       },
-      version: { 
-         type: "string",
+      num_gpus: { 
+         type: "integer",
+         required: false
+      },
+      gpu_model: { 
+         type: ["string", "null"],
+         required: false
+      },
+      gpu_vendor: { 
+         type: ["string", "null"],
          required: false
       },
       tenant_id: {
