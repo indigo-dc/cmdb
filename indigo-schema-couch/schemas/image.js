@@ -4,21 +4,24 @@ module.exports = {
    list: {
       filters: {
          image_name: ["image_name"],
-         service: ["service"]
+         tenant_id: ["tenant_id"],
+         user_group: ["user_group"]
       }, 
       value: {
          image_id: "image_id",
-         image_name: "image_name"
+         image_name: "image_name",
+         user_group: "user_group"
       }
    },
    belongs_to: [{
-      type: 'service',
+      type: 'tenant',
       many_name: 'images',
-      foreign_key: 'service',
+      foreign_key: 'tenant_id',
       value: {
          image_id: "image_id", 
          image_name: "image_name",
-         service: "service"
+         tenant_id: "tenant_id",
+         user_group: "user_group"
       }
    }],
    properties: {
@@ -46,9 +49,21 @@ module.exports = {
          type: "string",
          required: false
       },
-      service: {
+      tenant_id: {
          type: "string",
          required: true
+      },
+      tenant_name: {
+         type: "string",
+         required: false
+      },
+      user_group: {
+         type: "string",
+         required: false
+      },
+      service: {
+         type: "string",
+         required: false
       }
    }
 }
